@@ -8,7 +8,7 @@ namespace Finance.Change.Data
 {
     public class ActiveData
     {
-        string connectionString = "Server=rodrigofurlaneti3108_Finance.sqlserver.dbaas.com.br;Database=Finance;User Id=rodrigofurlaneti3108_Finance;Password=Digo310884@;";
+        string connectionString = "Server=rodrigofurlaneti3108_Finance.sqlserver.dbaas.com.br;Database=Finance;User Id=rodrigofurlaneti3108_Finance;Password=_;";
 
         public List<Active> GetActive()
         {
