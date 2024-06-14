@@ -4,6 +4,7 @@ namespace Finance.Models
 {
     public class Financials
     {
+        public int IdFinancials { get; set; }
         [JsonPropertyName("quota_count")]
         public int Quota_count { get; set; }
 

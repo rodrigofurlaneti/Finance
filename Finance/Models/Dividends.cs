@@ -4,6 +4,7 @@ namespace Finance.Models
 {
     public class Dividends
     {
+        public int IdDividends { get; set; }
         [JsonPropertyName("yield_12m")]
         public double Yield_12m { get; set; }
 

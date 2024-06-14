@@ -4,6 +4,8 @@ namespace Finance.Models
 {
     public class Active
     {
+        [JsonPropertyName("IdActive")]
+        public int IdActive { get; set; }
         [JsonPropertyName("kind")]
         public string Kind { get; set; }
 
