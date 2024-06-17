@@ -1,16 +1,15 @@
-﻿
-using Finance.Models;
+﻿using Finance.Models;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace Finance.Service
+namespace Finance.Web.Service.Service
 {
     public class MainIndicesService
     {
 
         public MainIndicesService() { }
 
-        public async Task<Trend> GetMainIndicesServiceAsync(Finance.Routes.Route route) 
+        public async Task<Trend> GetMainIndicesServiceAsync(Routes.Route route)
         {
             Trend trend = new Trend();
 

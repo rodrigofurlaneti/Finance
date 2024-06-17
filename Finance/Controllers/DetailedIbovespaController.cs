@@ -4,7 +4,7 @@ namespace Finance.Controllers
 {
     public class DetailedIbovespaController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

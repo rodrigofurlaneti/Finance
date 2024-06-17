@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers
 {
-    public class AllStockExchangeController : Controller
+    public class BrazilianDepositaryReceiptsController : Controller
     {
         public async Task<IActionResult> Index()
         {
-            var allStockExchangeService = new AllStockExchangeService();
+            var brazilianDepositaryReceipts = new BrazilianDepositaryReceiptsService();
 
-            var model = await allStockExchangeService.GetAllActiveAsync();
+            var model = await brazilianDepositaryReceipts.GetAllActiveBdrAsync();
 
             return View(model);
         }

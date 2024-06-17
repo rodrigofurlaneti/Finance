@@ -6,7 +6,7 @@ namespace Finance.Models
     {
         //Valor patrimonial (somente FIIs)
         [JsonPropertyName("equity")]
-        public decimal? Equity { get; set; }
+        public long? Equity { get; set; }
 
         //Valor patrimonial por cota (somente FIIs)
         [JsonPropertyName("equity_per_share")]
@@ -18,8 +18,9 @@ namespace Finance.Models
 
         //Cotas emitidas (FIIs / ordinária / preferencial)
         [JsonPropertyName("quota_count")]
-        public decimal? Quota_count { get; set; }
+        public long? Quota_count { get; set; }
 
+        //
         [JsonPropertyName("dividends")]
         public Dividends Dividends { get; set; }
     }
