@@ -14,9 +14,9 @@ namespace Finance.Models
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
-        
+
         [JsonPropertyName("company_name")]
-        public string Company_name { get; set; }
+        public string CompanyName { get; set; }
 
         [JsonPropertyName("document")]
         public string Document { get; set; }
@@ -40,24 +40,24 @@ namespace Finance.Models
         public string Currency { get; set; }
 
         [JsonPropertyName("market_time")]
-        public MarketTime Market_time { get; set; }
+        public MarketTime MarketTime { get; set; }
 
         [JsonPropertyName("logo")]
         public Logo Logo { get; set; }
 
         [JsonPropertyName("market_cap")]
-        public double Market_cap { get; set; }
+        public decimal MarketCap { get; set; }
 
         [JsonPropertyName("price")]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         [JsonPropertyName("change_percent")]
-        public double Change_percent { get; set; }
+        public decimal ChangePercent { get; set; }
 
         [JsonPropertyName("change_price")]
-        public double Change_price { get; set; }
+        public decimal ChangePrice { get; set; }
 
         [JsonPropertyName("updated_at")]
-        public string Updated_at { get; set; }
+        public string UpdatedAt { get; set; }
     }
 }

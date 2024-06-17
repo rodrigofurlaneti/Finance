@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Web", "Finance\Finance.Web.csproj", "{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Change", "Finance.Change\Finance.Change.csproj", "{4E05A322-5180-48E9-BF64-912616304725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Web", "Finance\Finance.Web.csproj", "{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E05A322-5180-48E9-BF64-912616304725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E05A322-5180-48E9-BF64-912616304725}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E05A322-5180-48E9-BF64-912616304725}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E05A322-5180-48E9-BF64-912616304725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

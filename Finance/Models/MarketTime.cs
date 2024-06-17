@@ -4,12 +4,11 @@ namespace Finance.Models
 {
     public class MarketTime
     {
-        public int IdMarketTime { get; set; }
         [JsonPropertyName("open")]
-        public string Open { get; set; }
+        public string OpenTime { get; set; }
 
         [JsonPropertyName("close")]
-        public string Close { get; set; }
+        public string CloseTime { get; set; }
 
         [JsonPropertyName("timezone")]
         public int Timezone { get; set; }
