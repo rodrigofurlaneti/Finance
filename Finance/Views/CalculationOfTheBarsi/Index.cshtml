@@ -1,7 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Finance.Web.Models;
+@model List<Barsi>
 @{
+
 }
 
 <h1 class="text-center display-4">Como Calcular a Fórmula de Barsi em Ações</h1>
@@ -60,3 +60,98 @@
     <li><strong>Plataformas Financeiras:</strong> Utilize plataformas como <a href="https://www.infomoney.com.br">InfoMoney</a>, <a href="https://www.statusinvest.com.br">Status Invest</a>, e <a href="https://www.fundamentus.com.br">Fundamentus</a> para encontrar informações detalhadas sobre dividendos e preços das ações.</li>
     <li><strong>Relatórios de Análise:</strong> Leia relatórios de analistas financeiros que frequentemente incluem projeções de dividendos futuros.</li>
 </ul>
+
+<h2 class="text-center display-4">Ranking:</h2>
+
+<h5 class="text-end" style="font-weight: 200;"><strong>Total de ativos, Ações, Bdrs e Fiis @Model.Count localizados</strong></h5>
+
+<h2>Filtrar</h2>
+<input type="text" id="filtroInput" onkeyup="filtrarTabela()" placeholder="Digite para filtrar...">
+
+<table id="minhaTabela" class="table table-hover">
+    <thead>
+        <tr>
+            <th id="codigo" name="codigo" scope="col" class="text-center">Código</th>
+            <th id="tipo" name="tipo" scope="col" class="text-center">Tipo</th>
+            <th id="nome" name="nome" scope="col" class="text-center">Nome</th>
+            <th id="empresa" name="empresa" scope="col" class="text-center">Empresa</th>
+            <th id="setor" name="setor" scope="col" class="text-center">Setor</th>
+            <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
+            <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)</th>
+            <th id="resultado" name="resultado" scope="col" class="text-center">Resultado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <button id="codigo" name="codigo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                        @item.Symbol
+                    </button>
+                </td>
+                <td>
+                    <button id="tipo" name="tipo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                        @item.Kind
+                    </button>
+                </td>
+                <td>
+                    <button id="name" name="name" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Name">
+                        @item.Name
+                    </button>
+                </td>
+                <td>
+                    <button id="companyName" name="companyName" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.CompanyName">
+                        @item.CompanyName
+                    </button>
+                </td>
+                <td>
+                    <button id="sector" name="sector" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Setor">
+                        @item.Sector
+                    </button>
+                </td>
+                <td>
+                    <button id="yield" name="yield" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R%)">
+                        R$@item.Yield_12m
+                    </button>
+                </td>
+                <td>
+                    <button id="price" name="price" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                        R$@item.Price
+                    </button>
+                </td>
+
+                <td>
+                    <button id="result" name="result" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Resultado(%)">
+                        @item.Result.ToString("F2")%
+                    </button>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+<script>
+    function filtrarTabela() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("filtroInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("minhaTabela");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            tr[i].style.display = "none";
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    }
+                }
+            }
+        }
+    }
+</script>
