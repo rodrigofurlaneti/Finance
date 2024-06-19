@@ -2,7 +2,7 @@
 
 namespace Finance.Web.Models
 {
-    public class Barsi
+    public class Graham
     {
         [JsonPropertyName("king")]
         public string Kind { get; set; }
@@ -19,8 +19,12 @@ namespace Finance.Web.Models
         public string Sector { get; set; }
         [JsonPropertyName("price")]
         public decimal Price { get; set; }
-        [JsonPropertyName("change_percent")]
+        [JsonPropertyName("yield_12m")]
         public decimal Yield_12m { get; set; }
+        [JsonPropertyName("annual_growth_rate")]
+        public decimal AnnualGrowthRate { get; set; }
+        [JsonPropertyName("return_rate")]
+        public decimal ReturnRate { get; set; }
         [JsonPropertyName("result")]
         public decimal Result { get; set; }
     }
