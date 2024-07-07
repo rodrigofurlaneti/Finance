@@ -1,19 +1,23 @@
-﻿using Finance.Web.Controllers;
-using Finance.Web.Service;
-using Finance.Web.Service.Interface;
-
+﻿using Finance.Domain;
+using Finance.Service.Interface;
+using Finance.Tests.Helpers.PopularClassWithFakeData;
+using Finance.Web.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace Finance.Tests.Web.Controllers
 {
     public class AllStockExchangeControllerTests
     {
         [Fact]
-        public async Task Index_ReturnsViewResult_WithAListOfActiveStockExchanges()
+        public async Task Index_Retorna_E_Visualizar_Resultado_Com_Uma_Lista_De_Bolsas_De_Valores_Ativas()
         {
             // Arrange
+            var objectReturn = ActiveFaker.GetListActive();
+
             var mockService = new Mock<IAllStockExchangeService>();
             mockService.Setup(service => service.GetAllActiveAsync())
-                       .ReturnsAsync(GetTestStockExchanges());
+                       .ReturnsAsync(objectReturn);
 
             var controller = new AllStockExchangeController(mockService.Object);
 
@@ -22,17 +26,10 @@ namespace Finance.Tests.Web.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<StockExchange>>(viewResult.ViewData.Model);
-            Assert.Equal(2, model.Count());
+            var model = Assert.IsAssignableFrom<IEnumerable<Active>>(viewResult.Model);
+            Assert.Equal(objectReturn.Count(), model.Count());
         }
 
-        private List<StockExchange> GetTestStockExchanges()
-        {
-            return new List<StockExchange>
-            {
-                new StockExchange { Id = 1, Name = "NYSE", IsActive = true },
-                new StockExchange { Id = 2, Name = "NASDAQ", IsActive = true },
-            };
-        }
+
     }
 }
