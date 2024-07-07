@@ -1,9 +1,9 @@
-﻿using Finance.Models;
-using Finance.Web.Data.Interface;
+﻿using Finance.Data.Interface;
+using Finance.Domain;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Finance.Web.Data.Repository
+namespace Finance.Data.Repository
 {
     public class AllStockExchangeData : IAllStockExchangeData
     {

@@ -1,8 +1,8 @@
-﻿using Finance.Models;
+﻿using Finance.Domain;
 
-namespace Finance.Web.Data.Interface
+namespace Finance.Service.Interface
 {
-    public interface IAllStockExchangeData
+    public interface IAllStockExchangeService
     {
         IEnumerable<Active> GetAllActive();
         Task<IEnumerable<Active>> GetAllActiveAsync();

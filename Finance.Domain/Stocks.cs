@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Finance.Models
+namespace Finance.Domain
 {
     public class Stocks
     {

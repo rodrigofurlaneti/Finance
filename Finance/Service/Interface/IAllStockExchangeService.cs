@@ -4,7 +4,7 @@ namespace Finance.Web.Service.Interface
 {
     public interface IAllStockExchangeService
     {
-        List<Active> GetAllActive();
-        Task<List<Active>> GetAllActiveAsync();
+        IEnumerable<Active> GetAllActive();
+        Task<IEnumerable<Active>> GetAllActiveAsync();
     }
 }

@@ -1,19 +1,19 @@
-﻿using Finance.Models;
-using Finance.Web.Data.Interface;
+﻿using Finance.Data.Interface;
+using Finance.Domain;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Finance.Web.Data.Repository
+namespace Finance.Data.Repository
 {
-    public class AllStockExchangeData : IAllStockExchangeData
+    public class StockExchangeData : IStockExchangeData
     {
         static string connectionString = "Server=rodrigofurlaneti3108_Finance.sqlserver.dbaas.com.br,1433;Database=rodrigofurlaneti3108_Finance;User Id=rodrigofurlaneti3108_Finance;Password=Digo310884@";
 
-        public IEnumerable<Active> GetAllActive()
+        public List<Active> GetStockExchangeActive()
         {
             List<Active> listActive = new List<Active>();
 
-            string storedProcedureName = "Finance_Procedure_Active_GetAll";
+            string storedProcedureName = "Finance_Procedure_Active_GetByKind_Stock";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -67,11 +67,12 @@ namespace Finance.Web.Data.Repository
 
             return listActive;
         }
-        public async Task<IEnumerable<Active>> GetAllActiveAsync()
+
+        public async Task<List<Active>> GetStockExchangeActiveAsync()
         {
             List<Active> listActive = new List<Active>();
 
-            string storedProcedureName = "Finance_Procedure_Active_GetAll";
+            string storedProcedureName = "Finance_Procedure_Active_GetByKind_Stock";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -125,6 +126,5 @@ namespace Finance.Web.Data.Repository
 
             return listActive;
         }
-
     }
 }

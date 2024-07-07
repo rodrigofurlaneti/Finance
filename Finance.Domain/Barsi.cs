@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Finance.Web.Models
+namespace Finance.Domain
 {
     public class Barsi
     {

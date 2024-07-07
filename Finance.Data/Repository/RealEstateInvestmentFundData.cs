@@ -1,25 +1,25 @@
-﻿using Finance.Models;
-using Finance.Web.Data.Interface;
+﻿using Finance.Data.Interface;
+using Finance.Domain;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Finance.Web.Data.Repository
+namespace Finance.Data.Repository
 {
-    public class AllStockExchangeData : IAllStockExchangeData
+    public class RealEstateInvestmentFundData : IRealEstateInvestmentFundData
     {
         static string connectionString = "Server=rodrigofurlaneti3108_Finance.sqlserver.dbaas.com.br,1433;Database=rodrigofurlaneti3108_Finance;User Id=rodrigofurlaneti3108_Finance;Password=Digo310884@";
 
-        public IEnumerable<Active> GetAllActive()
+        public List<Active> GetAllActiveFii()
         {
             List<Active> listActive = new List<Active>();
 
-            string storedProcedureName = "Finance_Procedure_Active_GetAll";
+            string storedProcedureName = "Finance_Procedure_Active_GetByKind_Fii";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();
 
@@ -45,9 +45,9 @@ namespace Finance.Web.Data.Repository
                             active.MarketCap = reader.GetDecimal(reader.GetOrdinal("MarketCap"));
                             active.Financials = new Financials();
                             active.Financials.Equity = reader.GetInt64(reader.GetOrdinal("Equity"));
-                            active.Financials.Equity_per_share = reader.GetDecimal(reader.GetOrdinal("Equity_per_share"));
-                            active.Financials.Price_to_book_ratio = reader.GetDecimal(reader.GetOrdinal("Price_to_book_ratio"));
                             active.Financials.Quota_count = reader.GetInt64(reader.GetOrdinal("Quota_count"));
+                            active.Financials.Price_to_book_ratio = reader.GetDecimal(reader.GetOrdinal("Price_to_book_ratio"));
+                            active.Financials.Equity_per_share = reader.GetDecimal(reader.GetOrdinal("Equity_per_share"));
                             active.Financials.Dividends = new Dividends();
                             active.Financials.Dividends.Yield_12m = reader.GetDecimal(reader.GetOrdinal("Yield_12m"));
                             active.Financials.Dividends.Yield_12m_sum = reader.GetDecimal(reader.GetOrdinal("Yield_12m_sum"));
@@ -67,17 +67,18 @@ namespace Finance.Web.Data.Repository
 
             return listActive;
         }
-        public async Task<IEnumerable<Active>> GetAllActiveAsync()
+
+        public async Task<List<Active>> GetAllActiveFiiAsync()
         {
             List<Active> listActive = new List<Active>();
 
-            string storedProcedureName = "Finance_Procedure_Active_GetAll";
+            string storedProcedureName = "Finance_Procedure_Active_GetByKind_Fii";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();
 
@@ -103,9 +104,9 @@ namespace Finance.Web.Data.Repository
                             active.MarketCap = reader.GetDecimal(reader.GetOrdinal("MarketCap"));
                             active.Financials = new Financials();
                             active.Financials.Equity = reader.GetInt64(reader.GetOrdinal("Equity"));
-                            active.Financials.Equity_per_share = reader.GetDecimal(reader.GetOrdinal("Equity_per_share"));
-                            active.Financials.Price_to_book_ratio = reader.GetDecimal(reader.GetOrdinal("Price_to_book_ratio"));
                             active.Financials.Quota_count = reader.GetInt64(reader.GetOrdinal("Quota_count"));
+                            active.Financials.Price_to_book_ratio = reader.GetDecimal(reader.GetOrdinal("Price_to_book_ratio"));
+                            active.Financials.Equity_per_share = reader.GetDecimal(reader.GetOrdinal("Equity_per_share"));
                             active.Financials.Dividends = new Dividends();
                             active.Financials.Dividends.Yield_12m = reader.GetDecimal(reader.GetOrdinal("Yield_12m"));
                             active.Financials.Dividends.Yield_12m_sum = reader.GetDecimal(reader.GetOrdinal("Yield_12m_sum"));
@@ -125,6 +126,5 @@ namespace Finance.Web.Data.Repository
 
             return listActive;
         }
-
     }
 }

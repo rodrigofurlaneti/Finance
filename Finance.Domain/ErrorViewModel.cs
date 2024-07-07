@@ -1,4 +1,4 @@
-namespace Finance.Models
+namespace Finance.Domain
 {
     public class ErrorViewModel
     {

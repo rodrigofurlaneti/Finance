@@ -1,18 +1,22 @@
-﻿using Finance.Web.Service;
-using Finance.Web.Service.Service;
+﻿using Finance.Web.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers
 {
     public class AllStockExchangeController : Controller
     {
+        private readonly IAllStockExchangeService _allStockExchangeService;
+
+        public AllStockExchangeController(IAllStockExchangeService allStockExchangeService)
+        {
+            _allStockExchangeService = allStockExchangeService;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var allStockExchangeService = new AllStockExchangeService();
-
-            var model = await allStockExchangeService.GetAllActiveAsync();
-
+            var model = await _allStockExchangeService.GetAllActiveAsync();
             return View(model);
         }
+
     }
 }

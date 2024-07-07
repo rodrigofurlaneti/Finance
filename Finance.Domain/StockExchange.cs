@@ -1,9 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Finance.Models
+namespace Finance.Domain
 {
     public class StockExchange
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -15,5 +17,8 @@ namespace Finance.Models
 
         [JsonPropertyName("variation")]
         public double Variation { get; set; }
+        [JsonPropertyName("isActive")]
+        public bool IsActive { get; set; }
+
     }
 }

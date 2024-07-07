@@ -1,8 +1,8 @@
-﻿using Finance.Models;
-using Finance.Web.Data.Interface;
-using Finance.Web.Service.Interface;
+﻿using Finance.Data.Interface;
+using Finance.Domain;
+using Finance.Service.Interface;
 
-namespace Finance.Web.Service.Service
+namespace Finance.Service.Implementation
 {
     public class AllStockExchangeService : IAllStockExchangeService
     {

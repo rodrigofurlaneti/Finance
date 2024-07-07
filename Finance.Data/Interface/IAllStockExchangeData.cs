@@ -1,6 +1,6 @@
-﻿using Finance.Models;
+﻿using Finance.Domain;
 
-namespace Finance.Web.Data.Interface
+namespace Finance.Data.Interface
 {
     public interface IAllStockExchangeData
     {
