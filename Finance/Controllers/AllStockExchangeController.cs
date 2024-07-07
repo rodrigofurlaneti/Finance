@@ -1,4 +1,5 @@
-﻿using Finance.Service.Interface;
+﻿using Finance.Domain;
+using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers
@@ -17,6 +18,7 @@ namespace Finance.Web.Controllers
             var model = await _allStockExchangeService.GetAllActiveAsync();
             return View(model);
         }
+
 
     }
 }
