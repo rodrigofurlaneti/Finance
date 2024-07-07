@@ -1,4 +1,4 @@
-﻿using Finance.Web.Service.Interface;
+﻿using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers

@@ -1,15 +1,20 @@
-﻿using Finance.Web.Service.Service;
+﻿using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers
 {
     public class RealEstateInvestmentFundController : Controller
     {
+        private readonly IRealEstateInvestmentFundService _realEstateInvestmentFundService;
+
+        public RealEstateInvestmentFundController(IRealEstateInvestmentFundService realEstateInvestmentFundService)
+        {
+            _realEstateInvestmentFundService = realEstateInvestmentFundService;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var realEstateInvestmentFund = new RealEstateInvestmentFundService();
-
-            var model = await realEstateInvestmentFund.GetAllActiveFiiAsync();
+            var model = await _realEstateInvestmentFundService.GetAllActiveFiiAsync();
 
             return View(model);
         }

@@ -1,4 +1,4 @@
-﻿using Finance.Models;
+﻿using Finance.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
