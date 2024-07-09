@@ -1,11 +1,16 @@
-﻿namespace Finance.Domain
+﻿using System.Text.Json.Serialization;
+
+namespace Finance.Domain
 {
     public class RecaptchaResponse
     {
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
-        public string Challenge_ts { get; set; }
+
+        [JsonPropertyName("challenge_ts")]
+        public DateTime ChallengeTimestamp { get; set; }
+
+        [JsonPropertyName("hostname")]
         public string Hostname { get; set; }
-        public float Score { get; set; }
-        public string Action { get; set; }
     }
 }

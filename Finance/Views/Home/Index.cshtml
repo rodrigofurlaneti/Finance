@@ -1,5 +1,54 @@
-﻿@{
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
     ViewData["Title"] = "Finanças - Home Page";
+    var siteKey = Configuration["GoogleReCaptcha:SiteKey"];
+}
+
+@if (TempData["MessageErro"] != null)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var message = decodeHTMLEntities('@TempData["MessageErro"]');
+            Swal.fire({
+                title: 'Oops...',
+                text: message,
+                icon: 'erros',
+                confirmButtonText: 'OK'
+            });
+        });
+
+        function decodeHTMLEntities(text) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = text;
+            return textArea.value;
+        }
+
+    </script>
+}
+
+@if (TempData["MessageSuccess"] != null)
+{
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var message = decodeHTMLEntities('@TempData["MessageSuccess"]');
+            console.log(message);
+            Swal.fire({
+                title: 'Sucesso!',
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+
+        function decodeHTMLEntities(text) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = text;
+            return textArea.value;
+        }
+
+    </script>
 }
 
 
@@ -60,7 +109,6 @@
         </div>
     </div>
 </div>
-
 <div class="container-fluid gtco-features" id="about">
     <div class="container">
         <div class="row">
@@ -124,53 +172,22 @@
         </div>
     </div>
 </div>
-<footer class="container-fluid" id="gtco-footer">
+
     <div class="container">
         <div class="row">
-            <div class="col-lg-6" id="contact">
-                <h4> Contate-nos </h4>
-
-                <script src="https://www.google.com/recaptcha/api.js?render=6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq"></script>
-
-                <form id="frm-contato" name="frm-contato" method="POST">
-                    <input type="text" class="form-control" placeholder="Nome">
-                    <input type="email" class="form-control" placeholder="Email">
-                    <textarea class="form-control" placeholder="Mensagem"></textarea>
-                    <br />
-                    <input type="submit" class="submit-button" value="Enviar">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <div class="col-lg-6">
+                <form asp-action="SubmitForm" method="post">
+                    <input type="text" class="form-control" placeholder="Nome" name="Nome">
+                    <input type="email" class="form-control" placeholder="Email" name="Email">
+                    <textarea class="form-control" placeholder="Mensagem" name="Mensagem"></textarea>
+                    <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+                    <button type="submit">Enviar</button>
                 </form>
             </div>
         </div>
     </div>
-</footer>
 
-@* 6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq
 
-6LfAlQsqAAAAANShv1R03J5Be0Mtjx7jIeqvK2OS *@
-<script>
-    document.getElementById('frm-contato').addEventListener('submit', function (event) {
-        event.preventDefault();
-        grecaptcha.ready(function () {
-            grecaptcha.execute('6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq', { action: 'submit' }).then(function (token) {
-                // Add token to the form and send it using AJAX
-                var form = document.getElementById('frm-contato');
-                var formData = new FormData(form);
-                formData.append('g-recaptcha-response', token);
-
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/submit-form', true);
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        // Handle success
-                        console.log('Form submitted successfully');
-                    } else {
-                        // Handle error
-                        console.log('An error occurred');
-                    }
-                };
-                xhr.send(formData);
-            });
-        });
-    });
-</script>
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+}

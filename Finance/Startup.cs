@@ -1,5 +1,6 @@
 ﻿using Finance.Data.Interface;
 using Finance.Data.Repository;
+using Finance.Domain;
 using Finance.Service.Implementation;
 using Finance.Service.Interface;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,8 @@ public class Startup
     // Este método é chamado pelo runtime. Use este método para adicionar serviços ao contêiner.
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Configure<GoogleReCaptchaSettings>(Configuration.GetSection("GoogleReCaptcha"));
+
         services.AddControllersWithViews();
 
         // Registro dos serviços de dados
@@ -41,10 +44,13 @@ public class Startup
     // Este método é chamado pelo runtime. Use este método para configurar o pipeline de solicitação HTTP.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (!env.IsDevelopment())
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
         {
             app.UseExceptionHandler("/Home/Error");
-            // O valor padrão do HSTS é 30 dias. Pode ser alterado para cenários de produção, veja https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
