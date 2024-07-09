@@ -129,11 +129,48 @@
         <div class="row">
             <div class="col-lg-6" id="contact">
                 <h4> Contate-nos </h4>
-                <input type="text" class="form-control" placeholder="Nome">
-                <input type="email" class="form-control" placeholder="Email">
-                <textarea class="form-control" placeholder="Mensagem"></textarea>
-                <a href="#" class="submit-button">Enviar <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+
+                <script src="https://www.google.com/recaptcha/api.js?render=6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq"></script>
+
+                <form id="frm-contato" name="frm-contato" method="POST">
+                    <input type="text" class="form-control" placeholder="Nome">
+                    <input type="email" class="form-control" placeholder="Email">
+                    <textarea class="form-control" placeholder="Mensagem"></textarea>
+                    <br />
+                    <input type="submit" class="submit-button" value="Enviar">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </form>
             </div>
         </div>
     </div>
 </footer>
+
+@* 6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq
+
+6LfAlQsqAAAAANShv1R03J5Be0Mtjx7jIeqvK2OS *@
+<script>
+    document.getElementById('frm-contato').addEventListener('submit', function (event) {
+        event.preventDefault();
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LfAlQsqAAAAAMhLW_gMmO2FQa3VdcBFY43IgxWq', { action: 'submit' }).then(function (token) {
+                // Add token to the form and send it using AJAX
+                var form = document.getElementById('frm-contato');
+                var formData = new FormData(form);
+                formData.append('g-recaptcha-response', token);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/submit-form', true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Handle success
+                        console.log('Form submitted successfully');
+                    } else {
+                        // Handle error
+                        console.log('An error occurred');
+                    }
+                };
+                xhr.send(formData);
+            });
+        });
+    });
+</script>

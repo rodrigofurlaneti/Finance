@@ -1,10 +1,9 @@
 ﻿@using Finance.Domain;
-@model List<Active>
-@{
-
+@model List<Active>;
+@if (Model != null)
+{
+    <h5 class="text-end" style="font-weight: 200;"><strong>Total de Ações @Model.Count localizados</strong></h5>
 }
-<h5 class="text-end" style="font-weight: 200;"><strong>Total de Ações @Model.Count localizados</strong></h5>
-
 <table class="table table-hover">
     <thead>
         <tr>
@@ -22,59 +21,65 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model != null)
         {
-            <tr>
-                <th scope="row"><img style="height:20px;" src=@item.Logo.Small /></th>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
-                        @item.Symbol
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Document">
-                        @item.CompanyName
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Setor">
-                        @item.Sector
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                        R$@item.Price
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
-                        @item.ChangePercent%
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
-                        R$@item.ChangePrice
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
-                        @item.Financials.Dividends.Yield_12m%
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
-                        R$@item.Financials.Dividends.Yield_12m_sum
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Valor de mercado (em milhões)">
-                        R$@item.MarketCap
-                    </button>
-                </td>
-                <td><a href="@item.Website">@item.Name</a></td>
-            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row"><img style="height:20px;" src=@item.Logo.Small /></th>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                            @item.Symbol
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Document">
+                            @item.CompanyName
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Setor">
+                            @item.Sector
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                            R$@item.Price
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
+                            @item.ChangePercent%
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
+                            R$@item.ChangePrice
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
+                            @item.Financials.Dividends.Yield_12m%
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
+                            R$@item.Financials.Dividends.Yield_12m_sum
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Valor de mercado (em milhões)">
+                            R$@item.MarketCap
+                        </button>
+                    </td>
+                    <td><a href="@item.Website">@item.Name</a></td>
+                </tr>
+            }
         }
-
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
 
     </tbody>
 </table>

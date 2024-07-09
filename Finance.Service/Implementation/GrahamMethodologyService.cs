@@ -1,8 +1,9 @@
 ﻿using Finance.Domain;
+using Finance.Service.Interface;
 
 namespace Finance.Service.Implementation
 {
-    public class GrahamMethodologyService
+    public class GrahamMethodologyService : IGrahamMethodologyService
     {
         public IEnumerable<Graham> GetGrahamMethodology(IEnumerable<Active> model, IEnumerable<Graham> result)
         {
