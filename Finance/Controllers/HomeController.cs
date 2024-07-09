@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Finance.Controllers
@@ -37,15 +38,24 @@ namespace Finance.Controllers
         [HttpPost]
         public async Task<IActionResult> SubmitForm(MensagemContato model)
         {
-            if (!await IsCaptchaValid(Request.Form["g-recaptcha-response"]))
+            if (ModelState.IsValid)
             {
-                TempData["MessageErro"] = "Verifique se você não é um robô, o captcha está invalido!";
-                return RedirectToAction("Index");
+                if (!await IsCaptchaValid(Request.Form["g-recaptcha-response"]))
+                {
+                    TempData["MessageErro"] = "Verifique se você não é um robô, o captcha está invalido!";
+                    return Json(new { success = false, redirectUrl = Url.Action("Index", "Home"), message = TempData["MessageErro"] });
+
+                }
+                else
+                {
+                    TempData["MessageSuccess"] = "Formulário enviado com sucesso, nossa equipe já vai entrar em contato com você!";
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home"), message = TempData["MessageSuccess"] });
+                }
             }
             else
             {
-                TempData["MessageSuccess"] = "Formulário enviado com sucesso, nossa equipe já vai entrar em contato com você!";
-                return RedirectToAction("Index");
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return Json(new { success = false, redirectUrl = Url.Action("Index", "Home"), message = errors });
             }
         }
 

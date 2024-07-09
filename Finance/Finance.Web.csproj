@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\home.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\home.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Finance.Service\Finance.Service.csproj" />
   </ItemGroup>
 
