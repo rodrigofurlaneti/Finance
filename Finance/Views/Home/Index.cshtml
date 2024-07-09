@@ -152,11 +152,25 @@
                             <span class="error" id="mensagemError">Por favor, insira uma mensagem válida.</span>
                         </div>
                     </div>
-                    <div>
-
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+                        <p class="googlePrivacy">
+                            Este site é protegido pelo reCAPTCHA Enterprise e pelo
+                            Aplicam-se a Política de Privacidade e os Termos de Serviço do Google.
+                        </p>
+                        </div>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="@siteKey"></div>
-                    <button type="submit">Enviar</button>
+                    <div class="row mb-6">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-secondary btn-sm"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip"
+                                    data-bs-title="Enviar">
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

@@ -8,7 +8,14 @@
     display: none;
     font-size: 12px;
 }
+.googlePrivacy {
+    font-size: 9px;
+}
 
 .input-error {
     border: 1px solid red;
+}
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bd-violet-bg);
+    --bs-tooltip-color: var(--bs-white);
 }
