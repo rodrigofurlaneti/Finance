@@ -6,6 +6,8 @@
     var siteKey = Configuration["GoogleReCaptcha:SiteKey"];
 }
 
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
 <link href="~/css/home.css" rel="stylesheet" />
 
 <div class="container-fluid gtco-banner-area">
@@ -129,133 +131,63 @@
     </div>
 </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <form id="form-mensagem-contato" name="form-mensagem-contato" method="post">
-                    <input type="hidden" id="recaptchaResponse" name="recaptchaResponse" value="@siteKey" />
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <input asp-for="Nome" id="nome" name="nome" type="text" class="form-control form-control-sm" placeholder="Nome">
-                               <span class="error" id="nomeError">Por favor, insira um nome válido.</span>
-                        </div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <form id="form-mensagem-contato" name="form-mensagem-contato" method="post">
+                <input type="hidden" id="recaptchaResponse" name="recaptchaResponse" />
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <input asp-for="Nome" id="nome" name="nome" type="text" class="form-control form-control-sm" placeholder="Nome">
+                        <span class="error" id="nomeError">Por favor, insira um nome válido.</span>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <input asp-for="Email" id="email" name="email" type="email" class="form-control form-control-sm" placeholder="Email">
-                            <span class="error" id="emailError">Por favor, insira um email válido.</span>
-                        </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <input asp-for="Email" id="email" name="email" type="email" class="form-control form-control-sm" placeholder="Email">
+                        <span class="error" id="emailError">Por favor, insira um email válido.</span>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <textarea asp-for="Mensagem" id="mensagem" name="mensagem" class="form-control form-control-sm" placeholder="Mensagem"></textarea>
-                            <span class="error" id="mensagemError">Por favor, insira uma mensagem válida.</span>
-                        </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-10">
+                        <textarea asp-for="Mensagem" id="mensagem" name="mensagem" class="form-control form-control-sm" placeholder="Mensagem"></textarea>
+                        <span class="error" id="mensagemError">Por favor, insira uma mensagem válida.</span>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <div class="g-recaptcha" data-sitekey="@siteKey"></div>
-                        <p class="googlePrivacy">
-                            Este site é protegido pelo reCAPTCHA Enterprise e pelo
-                            Aplicam-se a Política de Privacidade e os Termos de Serviço do Google.
-                        </p>
-                        </div>
+                </div>
+                <div class="row mb-6">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-secondary btn-sm"
+                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                data-bs-custom-class="custom-tooltip"
+                                data-bs-title="Enviar">
+                            Enviar
+                        </button>
                     </div>
-                    <div class="row mb-6">
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-secondary btn-sm"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-custom-class="custom-tooltip"
-                                    data-bs-title="Enviar">
-                                Enviar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-    
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
-    
-    <script>
+</div>
 
-        $(document).ready(function () {
-            // Validação em tempo real do campo Nome para aceitar apenas letras
-            $("#nome").on("input", function () {
-                var nome = $(this).val();
-                if (!/^[a-zA-Z\s]*$/.test(nome)) {
-                    $("#nomeError").show();
-                    $(this).addClass("input-error");
-                } else {
-                    $("#nomeError").hide();
-                    $(this).removeClass("input-error");
-                }
-            });
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
 
-            // Validação em tempo real do campo Email para garantir que contenha "Arroba"
-            $("#email").on("input", function () {
-                var email = $(this).val();
-                console.log(email); // Adicione esta linha
-                if (email.indexOf("@@") === -1) {
-                    $("#emailError").show();
-                    $(this).addClass("input-error");
-                } else {
-                    $("#emailError").hide();
-                    $(this).removeClass("input-error");
-                }
-            });
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-            // Validação do formulário ao enviar
-            $("#form-mensagem-contato").on("submit", function (event) {
-                event.preventDefault(); // Evita o envio do formulário padrão
+<script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
 
-                var valid = true;
+<script>
+    $(document).ready(function () {
+        $("#form-mensagem-contato").on("submit", function (event) {
+            event.preventDefault(); // Evita o envio do formulário padrão
+            grecaptcha.ready(function () {
+                grecaptcha.execute('@siteKey', { action: 'submit' }).then(function (token) {
+                    $("#recaptchaResponse").val(token);
 
-                // Validação do campo Nome
-                var nome = $("#nome").val() || "";
-                if (!/^[a-zA-Z\s]+$/.test(nome.trim()) || nome.trim() === "") {
-                    $("#nomeError").show();
-                    $("#nome").addClass("input-error");
-                    valid = false;
-                } else {
-                    $("#nomeError").hide();
-                    $("#nome").removeClass("input-error");
-                }
-
-                // Validação do campo Email
-                var email = $("#email").val() || "";
-                if (email.indexOf("@@") === -1 || email.trim() === "") {
-                    $("#emailError").show();
-                    $("#email").addClass("input-error");
-                    valid = false;
-                } else {
-                    $("#emailError").hide();
-                    $("#email").removeClass("input-error");
-                }
-
-                // Validação do campo Mensagem
-                var mensagem = $("#mensagem").val() || "";
-                if (!/^[a-zA-Z\s]+$/.test(mensagem.trim()) || mensagem.trim() === "") {
-                    $("#mensagemError").show();
-                    $("#mensagem").addClass("input-error");
-                    valid = false;
-                } else {
-                    $("#mensagemError").hide();
-                    $("#mensagem").removeClass("input-error");
-                }
-
-                if (valid) {
-
-                    // Obter o valor do reCAPTCHA
-                    var recaptchaResponse = grecaptcha.getResponse();
-
-                    // Enviar os dados do formulário usando AJAX
                     var formData = {
                         nome: $("#nome").val(),
                         email: $("#email").val(),
                         mensagem: $("#mensagem").val(),
-                        "g-recaptcha-response": recaptchaResponse
+                        recaptchaResponse: token
                     };
 
                     $.ajax({
@@ -264,48 +196,30 @@
                         data: formData,
                         success: function (response) {
                             if (response.success) {
-
-                                // Mensagem de sucesso
                                 Swal.fire({
                                     title: 'Sucesso!',
                                     text: response.message,
                                     icon: 'success',
                                     confirmButtonText: 'OK'
                                 });
-
-                                // Limpar campos da página de sucesso
                                 $("#nome").val('');
                                 $("#email").val('');
                                 $("#mensagem").val('');
                             } else {
-                                // Verificar se errors está definido antes de usar join
-                                if (response.errors) {
-                                    Swal.fire({
-                                        title: 'Oops...',
-                                        text: response.errors.join(", "),
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        title: 'Oops...',
-                                        text: response.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
+                                Swal.fire({
+                                    title: 'Oops...',
+                                    text: response.errors ? response.errors.join(", ") : response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
                             }
                         },
                         error: function () {
                             alert("Ocorreu um erro ao enviar o formulário. Tente novamente.");
                         }
                     });
-                }
+                });
             });
+        });
     });
-
-    </script>
-
-@section Scripts {
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-}
+</script>

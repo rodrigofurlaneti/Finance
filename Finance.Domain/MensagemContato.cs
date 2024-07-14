@@ -15,5 +15,7 @@ namespace Finance.Domain
         [Required(ErrorMessage = "A mensagem é obrigatória.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "A mensagem só pode conter caracteres alfabéticos.")]
         public string Mensagem { get; set; }
+
+        public string RecaptchaResponse { get; set; }
     }
 }

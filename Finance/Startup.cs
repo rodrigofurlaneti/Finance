@@ -3,11 +3,6 @@ using Finance.Data.Repository;
 using Finance.Domain;
 using Finance.Service.Implementation;
 using Finance.Service.Interface;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 public class Startup
 {
@@ -21,8 +16,12 @@ public class Startup
     // Este método é chamado pelo runtime. Use este método para adicionar serviços ao contêiner.
     public void ConfigureServices(IServiceCollection services)
     {
+        // Outros serviços configurados
+        services.AddHttpClient();
+
         services.Configure<GoogleReCaptchaSettings>(Configuration.GetSection("GoogleReCaptcha"));
 
+        // Adicione outros serviços necessários, como suporte para MVC
         services.AddControllersWithViews();
 
         // Registro dos serviços de dados

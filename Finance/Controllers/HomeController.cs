@@ -1,73 +1,77 @@
 ﻿using Finance.Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using System.Reflection;
 using System.Text.Json;
 
 namespace Finance.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly GoogleReCaptchaSettings _googleReCaptchaSettings;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HomeController(ILogger<HomeController> logger, 
-            IOptions<GoogleReCaptchaSettings> googleReCaptchaSettings)
+        public HomeController(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
-            _googleReCaptchaSettings = googleReCaptchaSettings.Value;
+            _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         [HttpPost]
-        public async Task<IActionResult> SubmitForm(MensagemContato model)
+        public async Task<IActionResult> SubmitForm(MensagemContato mensagemContato)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (!await IsCaptchaValid(Request.Form["g-recaptcha-response"]))
+                if (mensagemContato.RecaptchaResponse == null)
                 {
-                    TempData["MessageErro"] = "Verifique se você não é um robô, o captcha está invalido!";
-                    return Json(new { success = false, redirectUrl = Url.Action("Index", "Home"), message = TempData["MessageErro"] });
-
+                    return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está nulo. Por favor, tente novamente." } });
                 }
                 else
                 {
-                    TempData["MessageSuccess"] = "Formulário enviado com sucesso, nossa equipe já vai entrar em contato com você!";
-                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home"), message = TempData["MessageSuccess"] });
+                    if (mensagemContato.RecaptchaResponse.Equals(string.Empty))
+                    {
+                        return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está vazio. Por favor, tente novamente." } });
+                    }
+                    else
+                    {
+                        var captchaResult = await ValidateCaptchaV3(mensagemContato);
+
+                        if (captchaResult.Success && captchaResult.Score > 0.3)
+                        {
+                            // Processar o formulário aqui (ex: salvar no banco de dados, enviar email, etc.)
+                            return Json(new { success = true, message = "Formulário enviado com sucesso!" });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. Por favor, tente novamente." } });
+                        }
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return Json(new { success = false, redirectUrl = Url.Action("Index", "Home"), message = errors });
+                // Registrar o erro
+                Console.WriteLine($"Erro ao verificar o reCAPTCHA: {ex.Message}");
+
+                return Json(new { success = false, errors = new List<string> { "Erro no servidor. Tente novamente mais tarde." } });
             }
         }
 
-        private async Task<bool> IsCaptchaValid(string captchaResponse)
+        private async Task<RecaptchaResponse> ValidateCaptchaV3(MensagemContato mensagemContato)
         {
-            var client = new HttpClient();
-            var response = await client.GetStringAsync($"https://www.google.com/recaptcha/api/siteverify?secret={_googleReCaptchaSettings.SecretKey}&response={captchaResponse}");
-            var result = JsonSerializer.Deserialize<RecaptchaResponse>(response);
-            if(result.Success)
-                return result.Success;
-            else
-                return false;
+            var secretKey = _configuration["GoogleReCaptcha:SecretKey"];
+
+            var client = _httpClientFactory.CreateClient();
+
+            var response = await client.PostAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secretKey}&response={mensagemContato.RecaptchaResponse}", null);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<RecaptchaResponse>(responseString);
         }
     }
 }
