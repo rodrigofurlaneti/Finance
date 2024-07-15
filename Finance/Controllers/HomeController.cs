@@ -26,31 +26,39 @@ namespace Finance.Controllers
         {
             try
             {
-                if (mensagemContato.RecaptchaResponse == null)
+                if (ModelState.IsValid)
                 {
-                    return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está nulo. Por favor, tente novamente." } });
-                }
-                else
-                {
-                    if (mensagemContato.RecaptchaResponse.Equals(string.Empty))
+                    if (mensagemContato.RecaptchaResponse == null)
                     {
-                        return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está vazio. Por favor, tente novamente." } });
+                        return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está nulo. Por favor, tente novamente." } });
                     }
                     else
                     {
-                        var captchaResult = await ValidateCaptchaV3(mensagemContato);
-
-                        if (captchaResult.Success && captchaResult.Score > 0.3)
+                        if (mensagemContato.RecaptchaResponse.Equals(string.Empty))
                         {
-                            // Processar o formulário aqui (ex: salvar no banco de dados, enviar email, etc.)
-                            return Json(new { success = true, message = "Formulário enviado com sucesso!" });
+                            return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. O Recaptcha Response está vazio. Por favor, tente novamente." } });
                         }
                         else
                         {
-                            return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. Por favor, tente novamente." } });
+                            var captchaResult = await ValidateCaptchaV3(mensagemContato);
+
+                            if (captchaResult.Success && captchaResult.Score > 0.3)
+                            {
+                                // Processar o formulário aqui (ex: salvar no banco de dados, enviar email, etc.)
+                                return Json(new { success = true, message = "Formulário enviado com sucesso!" });
+                            }
+                            else
+                            {
+                                return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. Por favor, tente novamente." } });
+                            }
                         }
                     }
                 }
+                else
+                {
+                    return Json(new { success = false, errors = new List<string> { "Falha na verificação do reCAPTCHA. Modelo no back-end inválido. Por favor, tente novamente." } });
+                }
+
             }
             catch (Exception ex)
             {

@@ -177,49 +177,132 @@
 
 <script>
     $(document).ready(function () {
+
+        // Função para validar o formulário
+        function validateForm() {
+            var isValid = true;
+
+            // Validação do campo Nome
+            var nome = $("#nome").val().trim();
+            if (!/^[a-zA-Z\s]+$/.test(nome) || nome === "") {
+                $("#nomeError").show();
+                $("#nome").addClass("input-error");
+                isValid = false;
+            } else {
+                $("#nomeError").hide();
+                $("#nome").removeClass("input-error");
+            }
+
+            // Validação do campo Email
+            var email = $("#email").val().trim();
+            if (email.indexOf("@@") === -1 || email === "") {
+                $("#emailError").show();
+                $("#email").addClass("input-error");
+                isValid = false;
+            } else {
+                $("#emailError").hide();
+                $("#email").removeClass("input-error");
+            }
+
+            // Validação do campo Mensagem
+            var mensagem = $("#mensagem").val().trim();
+            if (!/^[a-zA-Z\s]+$/.test(mensagem) || mensagem === "") {
+                $("#mensagemError").show();
+                $("#mensagem").addClass("input-error");
+                isValid = false;
+            } else {
+                $("#mensagemError").hide();
+                $("#mensagem").removeClass("input-error");
+            }
+
+            return isValid;
+        }
+
+        // Evento de envio do formulário
         $("#form-mensagem-contato").on("submit", function (event) {
             event.preventDefault(); // Evita o envio do formulário padrão
-            grecaptcha.ready(function () {
-                grecaptcha.execute('@siteKey', { action: 'submit' }).then(function (token) {
-                    $("#recaptchaResponse").val(token);
 
-                    var formData = {
-                        nome: $("#nome").val(),
-                        email: $("#email").val(),
-                        mensagem: $("#mensagem").val(),
-                        recaptchaResponse: token
-                    };
+            if (validateForm()) {
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('@siteKey', {action: 'submit'}).then(function(token) {
+                        $("#recaptchaResponse").val(token);
 
-                    $.ajax({
-                        url: '@Url.Action("SubmitForm", "Home")',
-                        type: 'POST',
-                        data: formData,
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    title: 'Sucesso!',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                });
-                                $("#nome").val('');
-                                $("#email").val('');
-                                $("#mensagem").val('');
-                            } else {
-                                Swal.fire({
-                                    title: 'Oops...',
-                                    text: response.errors ? response.errors.join(", ") : response.message,
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
+                        var formData = {
+                            nome: $("#nome").val(),
+                            email: $("#email").val(),
+                            mensagem: $("#mensagem").val(),
+                            recaptchaResponse: token
+                        };
+
+                        $.ajax({
+                            url: '@Url.Action("SubmitForm", "Home")',
+                            type: 'POST',
+                            data: formData,
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        title: 'Sucesso!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    });
+                                    $("#nome").val('');
+                                    $("#email").val('');
+                                    $("#mensagem").val('');
+                                } else {
+                                    Swal.fire({
+                                        title: 'Oops...',
+                                        text: response.errors ? response.errors.join(", ") : response.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log("Erro: " + textStatus + " - " + errorThrown);
+                                alert("Ocorreu um erro ao enviar o formulário. Tente novamente.");
                             }
-                        },
-                        error: function () {
-                            alert("Ocorreu um erro ao enviar o formulário. Tente novamente.");
-                        }
+                        });
                     });
                 });
-            });
+            }
+        });
+
+        // Validação em tempo real do campo Nome
+        $("#nome").on("input", function () {
+            var nome = $(this).val().trim();
+            if (!/^[a-zA-Z\s]+$/.test(nome)) {
+                $("#nomeError").show();
+                $(this).addClass("input-error");
+            } else {
+                $("#nomeError").hide();
+                $(this).removeClass("input-error");
+            }
+        });
+
+        // Validação em tempo real do campo Email
+        $("#email").on("input", function () {
+            var email = $(this).val().trim();
+            if (email.indexOf("@@") === -1) {
+                $("#emailError").show();
+                $(this).addClass("input-error");
+            } else {
+                $("#emailError").hide();
+                $(this).removeClass("input-error");
+            }
+        });
+
+        // Validação em tempo real do campo Mensagem
+        $("#mensagem").on("input", function () {
+            var mensagem = $(this).val().trim();
+            if (!/^[a-zA-Z\s]+$/.test(mensagem)) {
+                $("#mensagemError").show();
+                $(this).addClass("input-error");
+            } else {
+                $("#mensagemError").hide();
+                $(this).removeClass("input-error");
+            }
         });
     });
 </script>
+
