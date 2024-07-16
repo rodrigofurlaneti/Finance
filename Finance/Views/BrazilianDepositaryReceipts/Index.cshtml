@@ -1,9 +1,9 @@
-﻿@using Finance.Domain;
-@model List<Active>
-@{
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using Finance.Domain;
+@model IPagedList<Active>
 
-}
-<h5 class="text-end" style="font-weight: 200;"><strong>Total de BDRs @Model.Count localizados</strong></h5>
+<h5 class="text-end" style="font-weight: 200;"><strong>Total de BDRs @Model.TotalItemCount localizados</strong></h5>
 
 <table class="table table-hover">
     <thead>
@@ -23,7 +23,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row"><img style="height:20px;" src=@item.Logo.Small /></th>
+                <th scope="row"><img style="height:40px;" src="@item.Logo.Small" /></th>
                 <td>
                     <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
                         @item.Symbol
@@ -62,7 +62,19 @@
                 <td><a href="@item.Website">@item.Name</a></td>
             </tr>
         }
-
-
     </tbody>
 </table>
+
+<div class="text-center">
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+    {
+        DisplayLinkToIndividualPages = true,
+        DisplayPageCountAndCurrentLocation = false,
+        MaximumPageNumbersToDisplay = 10,
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" },
+
+    })
+
+</div>

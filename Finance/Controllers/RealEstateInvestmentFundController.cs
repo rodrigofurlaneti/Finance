@@ -1,5 +1,6 @@
 ﻿using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList.Extensions;
 
 namespace Finance.Web.Controllers
 {
@@ -12,11 +13,15 @@ namespace Finance.Web.Controllers
             _realEstateInvestmentFundService = realEstateInvestmentFundService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var model = await _realEstateInvestmentFundService.GetAllActiveFiiAsync();
+            var items = await _realEstateInvestmentFundService.GetAllActiveFiiAsync();
 
-            return View(model);
+            int pageSize = 50; // Tamanho da página
+
+            int pageNumber = (page ?? 1); // Número da página atual
+
+            return View(items.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult FirstArticle() => View();
