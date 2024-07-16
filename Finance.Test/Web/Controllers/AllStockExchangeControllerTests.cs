@@ -22,7 +22,7 @@ namespace Finance.Tests.Web.Controllers
             var controller = new AllStockExchangeController(mockService.Object);
 
             // Act
-            var result = await controller.Index();
+            var result = await controller.Index(1);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);

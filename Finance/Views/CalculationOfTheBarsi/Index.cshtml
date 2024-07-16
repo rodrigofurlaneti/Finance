@@ -1,8 +1,7 @@
 ﻿@using Finance.Domain;
-@model List<Barsi>
-@{
+@model IEnumerable<Barsi>
 
-}
+<link href="~/css/Views/CalculationOfTheBarsi.css" rel="stylesheet" />
 
 <h1 class="text-center display-4">Como Calcular a Fórmula de Barsi em Ações</h1>
 <p>A Fórmula de Barsi, criada por Luiz Barsi, é uma metodologia para avaliar o potencial de retorno de uma ação com base no seu dividend yield (DY). O objetivo é identificar ações que possam proporcionar uma renda passiva consistente por meio de dividendos.</p>
@@ -63,64 +62,19 @@
 
 <h2 class="text-center display-4">Ranking:</h2>
 
-<h5 class="text-end" style="font-weight: 200;"><strong>Total de ativos, Ações, Bdrs e Fiis @Model.Count localizados</strong></h5>
+<h5 class="text-end" style="font-weight: 200;"><strong>Total de ativos, Ações, Bdrs e Fiis @Model.Count() localizados</strong></h5>
 
 <h2>Filtrar</h2>
 <input type="text" id="filtroInput" onkeyup="filtrarTabela()" placeholder="Digite para filtrar...">
 
-<table id="minhaTabela" class="table table-hover">
-    <thead>
-        <tr>
-            <th id="codigo" name="codigo" scope="col" class="text-center">Código</th>
-            <th id="tipo" name="tipo" scope="col" class="text-center">Tipo</th>
-            <th id="nome" name="nome" scope="col" class="text-center">Nome</th>
-            <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
-            <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)</th>
-            <th id="resultado" name="resultado" scope="col" class="text-center">Resultado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <button id="codigo" name="codigo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
-                        @item.Symbol
-                    </button>
-                </td>
-                <td>
-                    <button id="tipo" name="tipo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
-                        @item.Kind
-                    </button>
-                </td>
-                <td>
-                    <button id="name" name="name" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Name">
-                        @item.Name
-                    </button>
-                </td>
-                <td>
-                    <button id="yield" name="yield" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R%)">
-                        R$@item.Yield_12m
-                    </button>
-                </td>
-                <td>
-                    <button id="price" name="price" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                        R$@item.Price
-                    </button>
-                </td>
+<div id="tabelaContainer">
 
-                <td>
-                    <button id="result" name="result" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Resultado(%)">
-                        @item.Result.ToString("F2")%
-                    </button>
-                </td>
-            </tr>
-        }
+    @Html.Partial("_TabelaBarsi", Model)
 
+</div>
 
-    </tbody>
-</table>
 <script>
+
     function filtrarTabela() {
         var input, filter, table, tr, td, i, j, txtValue;
         input = document.getElementById("filtroInput");

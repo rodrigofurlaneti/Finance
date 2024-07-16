@@ -12,9 +12,9 @@ namespace Finance.Web.Controllers
         {
             _brazilianDepositaryReceiptsService = brazilianDepositaryReceiptsService;
         }
-        public async Task<IActionResult> Index(int? page)
+        public IActionResult Index(int? page)
         {
-            var items = await _brazilianDepositaryReceiptsService.GetAllActiveBdrAsync();
+            var items = _brazilianDepositaryReceiptsService.GetAllActiveBdr();
 
             int pageSize = 100; // Tamanho da página
 
