@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<Finance.Domain.Barsi>
 
+<h4>Total de ativos: @Model.Count()</h4>
+
 <table id="minhaTabela" class="table table-hover">
     <thead>
         <tr>
@@ -7,30 +9,13 @@
             <th id="tipo" name="tipo" scope="col" class="text-center">Tipo</th>
             <th id="nome" name="nome" scope="col" class="text-center">Nome</th>
             <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)
-                <button id="ordenarPorYield" name="ordenarPorYield">
-                    <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
-                </button>
 
-                <button id="ordenarPorYieldAsc" name="ordenarPorYieldAsc">
-                    <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
-                </button>
             </th>
             <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)
-                <button id="ordenarPorPrice" name="ordenarPorPrice">
-                    <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
-                </button>
 
-                <button id="ordenarPorPriceAsc" name="ordenarPorPriceAsc">
-                    <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
-                </button>
             </th>
             <th id="resultado" name="resultado" scope="col" class="text-center">Resultado
-                <button id="ordenarPorResult" name="ordenarPorResult">
-                    <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
-                </button>
-                <button id="ordenarPorResultAsc" name="ordenarPorResultAsc">
-                    <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
-                </button>
+
             </th>
         </tr>
     </thead>
@@ -74,125 +59,3 @@
     </tbody>
 </table>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-
-        $('#ordenarPorYieldAsc').click(function () {
-
-            const url = '@Url.Action("OrderByAscendingYield", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-
-        $('#ordenarPorYield').click(function () {
-
-            const url = '@Url.Action("OrderByDescendingYield", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-
-        $('#ordenarPorPrice').click(function () {
-
-            const url = '@Url.Action("OrderByDescendingPrice", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-
-        $('#ordenarPorPriceAsc').click(function () {
-
-            const url = '@Url.Action("OrderByAscendingPrice", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-
-        $('#ordenarPorResult').click(function () {
-
-            const url = '@Url.Action("OrderByDescendingResult", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-
-
-        $('#ordenarPorResultAsc').click(function () {
-
-            const url = '@Url.Action("OrderByAscendingResult", "CalculationOfTheBarsi")';
-
-            console.log('AJAX URL:', url);
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (result) {
-                    $('#tabelaContainer').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao ordenar a tabela:', error);
-                    alert('Erro ao ordenar a tabela.');
-                }
-            });
-        });
-    });
-
-</script>

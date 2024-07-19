@@ -1,6 +1,7 @@
 ﻿using Finance.Domain;
 using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace Finance.Web.Controllers
 {
@@ -35,40 +36,29 @@ namespace Finance.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> OrderByDescendingYield()
+        [HttpPost]
+        public IActionResult OrderByDescendingYield([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returmService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
-                // Ordenar a lista pela coluna Yield em ordem decrescente
-                returmService = returmService.OrderByDescending(b => b.Yield_12m).ToList();
-
-                return PartialView("_TabelaBarsi", returmService);
+                var orderedModel = returnService.OrderByDescending(b => b.Yield_12m).ToList();
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
-                // Log the error
                 Console.WriteLine("Error in CalculationOfTheBarsiController/OrderByDescendingYield: " + ex.Message);
-                
                 return StatusCode(500, "Internal server error");
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> OrderByAscendingYield()
+        [HttpPost]
+        public IActionResult OrderByAscendingYield([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returnService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
                 var orderedModel = returnService.OrderBy(b => b.Yield_12m).ToList();
 
-                return PartialView("_TabelaBarsi", orderedModel);
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
@@ -79,18 +69,15 @@ namespace Finance.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> OrderByDescendingPrice()
+        [HttpPost]
+        public IActionResult OrderByDescendingPrice([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returmService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                returmService = returmService.OrderByDescending(b => b.Price).ToList();
+                var orderedModel = returnService.OrderByDescending(b => b.Price).ToList();
 
-                return PartialView("_TabelaBarsi", returmService);
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
@@ -101,18 +88,14 @@ namespace Finance.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> OrderByAscendingPrice()
+        [HttpPost]
+        public IActionResult OrderByAscendingPrice([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returnService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
                 var orderedModel = returnService.OrderBy(b => b.Price).ToList();
 
-                return PartialView("_TabelaBarsi", orderedModel);
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
@@ -123,18 +106,15 @@ namespace Finance.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> OrderByDescendingResult()
+        [HttpPost]
+        public IActionResult OrderByDescendingResult([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returmService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                returmService = returmService.OrderByDescending(b => b.Result).ToList();
+                var orderedModel = returnService.OrderByDescending(b => b.Result).ToList();
 
-                return PartialView("_TabelaBarsi", returmService);
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
@@ -145,24 +125,133 @@ namespace Finance.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> OrderByAscendingResult()
+        [HttpPost]
+        public IActionResult OrderByAscendingResult([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var model = _allStockExchangeService.GetAllActive();
-
-                var returnService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
-
                 var orderedModel = returnService.OrderBy(b => b.Result).ToList();
 
-                return PartialView("_TabelaBarsi", orderedModel);
+                return Json(orderedModel);
             }
             catch (Exception ex)
             {
                 // Log the error
                 Console.WriteLine("Error in CalculationOfTheBarsiController/OrderByAscendingYield: " + ex.Message);
 
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult OrderByKindFii([FromBody] IEnumerable<Barsi> model)
+        {
+            try
+            {
+                model = model.Where(b => b.Kind.Equals("fii")).ToList();
+
+                if (model.Count().Equals(0))
+                {
+                    var modelResult = _allStockExchangeService.GetAllActive();
+
+                    var returnService = _calculationOfTheBarsiService.GetCalculationOfTheBarsi(modelResult);
+
+                    model = returnService.Where(b => b.Kind.Equals("fii")).ToList();
+                }
+
+                return Json(model);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in CalculationOfTheBarsiController/OrderByKindFii: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult OrderByKindStock([FromBody] IEnumerable<Barsi> model)
+        {
+            try
+            {
+                model = model.Where(b => b.Kind.Equals("stock")).ToList();
+
+                if (model.Count().Equals(0))
+                {
+                    var modelResult = _allStockExchangeService.GetAllActive();
+
+                    var returnService = _calculationOfTheBarsiService.GetCalculationOfTheBarsi(modelResult);
+
+                    model = returnService.Where(b => b.Kind.Equals("stock")).ToList();
+                }
+
+                return Json(model);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in CalculationOfTheBarsiController/OrderByKindStock: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult OrderByKindBdr([FromBody] IEnumerable<Barsi> model)
+        {
+            try
+            {
+                model = model.Where(b => b.Kind.Equals("bdr")).ToList();
+
+                if(model.Count().Equals(0))
+                {
+                    var modelResult = _allStockExchangeService.GetAllActive();
+
+                    var returnService = _calculationOfTheBarsiService.GetCalculationOfTheBarsi(modelResult);
+
+                    model = returnService.Where(b => b.Kind.Equals("bdr")).ToList();
+                }
+
+                return Json(model);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in CalculationOfTheBarsiController/OrderByKindStock: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Clean()
+        {
+            try
+            {
+                var model = await _allStockExchangeService.GetAllActiveAsync();
+
+                var returmService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(model);
+                
+                return Json(returmService);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in CalculationOfTheBarsiController/Clean: " + ex.Message);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult RenderTable([FromBody] IEnumerable<Barsi> updatedModel)
+        {
+            try
+            {
+                return PartialView("_TabelaBarsi", updatedModel);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in CalculationOfTheBarsiController/RenderTable: " + ex.Message);
                 return StatusCode(500, "Internal server error");
             }
         }

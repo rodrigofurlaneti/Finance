@@ -67,6 +67,43 @@
 <h2>Filtrar</h2>
 <input type="text" id="filtroInput" onkeyup="filtrarTabela()" placeholder="Digite para filtrar...">
 
+<h2>Opções</h2>
+<button id="filtroOrderByKindBdr" name="filtroOrderByKindBdr" class="btn btn-primary btn-sm">Bdr</button>
+<button id="filtroOrderByKindFii" name="filtroOrderByKindFii" class="btn btn-primary btn-sm">Fii</button>
+<button id="filtroOrderByKindStock" name="filtroOrderByKindStock" class="btn btn-primary btn-sm">Stock</button>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorYieldDesc" name="ordenarPorYieldDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+        </button>
+    <button type="button" class="btn btn-primary btn-sm">Yield</button>
+    <button type="button" id="ordenarPorYieldAsc" name="ordenarPorYieldAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorPriceDesc" name="ordenarPorPriceDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Preço</button>
+    <button type="button" id="ordenarPorPriceAsc" name="ordenarPorPriceAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorResultDesc" name="ordenarPorResultDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Resultado</button>
+    <button type="button" id="ordenarPorResultAsc" name="ordenarPorResultAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<button id="cleanModel" name="cleanModel" class="btn btn-primary btn-sm">Limpar Filtros</button>
+
 <div id="tabelaContainer">
 
     @Html.Partial("_TabelaBarsi", Model)
@@ -74,26 +111,88 @@
 </div>
 
 <script>
+    var model = @Html.Raw(Json.Serialize(Model));
 
-    function filtrarTabela() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("filtroInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("minhaTabela");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 1; i < tr.length; i++) {
-            tr[i].style.display = "none";
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        break;
-                    }
-                }
-            }
-        }
+    function updateModelAndRender(url) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(model)
+        })
+            .then(response => response.json())
+            .then(updatedModel => {
+                model = updatedModel; // Atualize o modelo com a resposta do servidor
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
     }
+
+    function renderTable(updatedModel) {
+        fetch('/CalculationOfTheBarsi/RenderTable', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedModel)
+        })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("tabelaContainer").innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function cleanModelAndRender() {
+        fetch('/CalculationOfTheBarsi/Clean')
+            .then(response => response.json())
+            .then(cleanedModel => {
+                model = cleanedModel; // Atualize o modelo com o modelo limpo
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("ordenarPorYieldAsc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByAscendingYield');
+        });
+
+        document.getElementById("ordenarPorYieldDesc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByDescendingYield');
+        });
+
+        document.getElementById("filtroOrderByKindFii").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByKindFii');
+        });
+
+        document.getElementById("filtroOrderByKindStock").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByKindStock');
+        });
+
+        document.getElementById("filtroOrderByKindBdr").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByKindBdr');
+        });
+
+        document.getElementById("ordenarPorResultAsc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByAscendingResult');
+        });
+
+        document.getElementById("ordenarPorResultDesc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByDescendingResult');
+        });
+
+        document.getElementById("ordenarPorPriceAsc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByAscendingPrice');
+        });
+
+        document.getElementById("ordenarPorPriceDesc").addEventListener("click", function () {
+            updateModelAndRender('/CalculationOfTheBarsi/OrderByDescendingPrice');
+        });
+
+        document.getElementById("cleanModel").addEventListener("click", function () {
+            cleanModelAndRender();
+        });
+    });
 </script>

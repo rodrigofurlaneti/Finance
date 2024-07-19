@@ -7,11 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\CalculationOfTheBarsi.js" />
     <Content Remove="wwwroot\js\home.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\home.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\CalculationOfTheBarsi.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\calculationofthebarsi.js" />
   </ItemGroup>
 
   <ItemGroup>
