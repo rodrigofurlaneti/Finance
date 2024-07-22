@@ -36,14 +36,15 @@ public class Startup
         services.AddScoped<ICalculationOfTheBarsiService, CalculationOfTheBarsiService>(); 
         services.AddScoped<IGrahamMethodologyService, GrahamMethodologyService>(); 
         services.AddScoped<IRealEstateInvestmentFundService, RealEstateInvestmentFundService>(); 
-        services.AddScoped<IStockExchangeService, StockExchangeService>(); 
+        services.AddScoped<IStockExchangeService, StockExchangeService>();
+        services.AddScoped<ILynchMethodologyService, LynchMethodologyService>();
 
     }
 
     // Este método é chamado pelo runtime. Use este método para configurar o pipeline de solicitação HTTP.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
+        if (env.IsDevelopment() || env.IsProduction())
         {
             app.UseDeveloperExceptionPage();
         }

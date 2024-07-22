@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Finance.Domain.Graham>
+
+<h4>Total de ativos: @Model.Count()</h4>
+
+<table id="minhaTabela" class="table table-hover">
+    <thead>
+        <tr>
+            <th id="codigo" name="codigo" scope="col" class="text-center">Código</th>
+            <th id="tipo" name="tipo" scope="col" class="text-center">Tipo</th>
+            <th id="nome" name="nome" scope="col" class="text-center">Nome</th>
+            <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
+            <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)</th>
+            <th id="annualGrowthRate" name="annualGrowthRate" scope="col" class="text-center">Taxa de Crescimento</th>
+            <th id="returnRate" name="returnRate" scope="col" class="text-center">Taxa de retorno atual do título</th>
+            <th id="resultado" name="resultado" scope="col" class="text-center">Valor intrínseco da ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    <button id="codigo" name="codigo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                        @item.Symbol
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="tipo" name="tipo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                        @item.Kind
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="name" name="name" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Name">
+                        @item.Name
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="yield" name="yield" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
+                        R$@item.Yield_12m
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="price" name="price" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                        R$@item.Price
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="annualGrowthRate" name="annualGrowthRate" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Taxa de Crescimento">
+                        @item.AnnualGrowthRate.ToString("F2")%
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="returnRate" name="returnRate" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Taxa de retorno atual do título SELIC">
+                        @item.ReturnRate.ToString("F2")%
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="result" name="result" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Valor intrínseco da ação">
+                        R$@item.Result.ToString("F2")
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

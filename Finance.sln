@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Web", "Finance\Finance.Web.csproj", "{3043B86E-C8F6-4E2B-8B09-8ED68E29A5B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Domain", "Finance.Domain\Finance.Domain.csproj", "{51C6B753-533C-43EB-9AC0-809B1CA55155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Domain", "Finance.Domain\Finance.Domain.csproj", "{51C6B753-533C-43EB-9AC0-809B1CA55155}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Service", "Finance.Service\Finance.Service.csproj", "{FE62C651-4296-4709-8014-1FD510444830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Service", "Finance.Service\Finance.Service.csproj", "{FE62C651-4296-4709-8014-1FD510444830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finance.Data", "Finance.Data\Finance.Data.csproj", "{46491043-0342-4A59-AAC3-45744AC012E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Data", "Finance.Data\Finance.Data.csproj", "{46491043-0342-4A59-AAC3-45744AC012E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Finance.Tests", "Finance.Test\Finance.Tests.csproj", "{DD14D768-7786-43C3-B7F2-FD2099CD8853}"
 EndProject
