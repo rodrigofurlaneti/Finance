@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Finance.Web.Controllers
 {
-    public class BrazilianDepositaryReceiptsController : Controller
+    public class BrazilianDepositaryReceiptsController : Controller, IController
     {
         private readonly IBrazilianDepositaryReceiptsService _brazilianDepositaryReceiptsService;
 
@@ -21,12 +21,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingPrice([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingPrice([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Price).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Price).ToList());
 
                 return Json(orderedModel);
             }
@@ -40,11 +40,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingPrice([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingPrice([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Price).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Price).ToList());
 
                 return Json(orderedModel);
             }
@@ -58,12 +58,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingChangeLastDay([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingChangeLastDay([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.ChangePercent).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.ChangePercent).ToList());
 
                 return Json(orderedModel);
             }
@@ -77,11 +77,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingChangeLastDay([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingChangeLastDay([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.ChangePercent).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.ChangePercent).ToList());
 
                 return Json(orderedModel);
             }
@@ -95,12 +95,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingLastDayVariation([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingLastDayVariation([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.ChangePrice).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.ChangePrice).ToList());
 
                 return Json(orderedModel);
             }
@@ -114,11 +114,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingLastDayVariation([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingLastDayVariation([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.ChangePrice).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.ChangePrice).ToList());
 
                 return Json(orderedModel);
             }
@@ -132,12 +132,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingYieldLastTwelveMonthsPercentage([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingYieldLastTwelveMonthsPercentage([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Financials.Dividends.Yield_12m).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Financials.Dividends.Yield_12m).ToList());
 
                 return Json(orderedModel);
             }
@@ -151,11 +151,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingYieldLastTwelveMonthsPercentage([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingYieldLastTwelveMonthsPercentage([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Financials.Dividends.Yield_12m).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Financials.Dividends.Yield_12m).ToList());
 
                 return Json(orderedModel);
             }
@@ -169,12 +169,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingYieldLastTwelveRealMonths([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingYieldLastTwelveRealMonths([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Financials.Dividends.Yield_12m_sum).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Financials.Dividends.Yield_12m_sum).ToList());
 
                 return Json(orderedModel);
             }
@@ -188,11 +188,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingYieldLastTwelveRealMonths([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingYieldLastTwelveRealMonths([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Financials.Dividends.Yield_12m_sum).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Financials.Dividends.Yield_12m_sum).ToList());
 
                 return Json(orderedModel);
             }
@@ -206,12 +206,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingMarketValue([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByDescendingMarketValue([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.MarketCap).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.MarketCap).ToList());
 
                 return Json(orderedModel);
             }
@@ -225,11 +225,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingMarketValue([FromBody] IEnumerable<Active> returnService)
+        public async Task<IActionResult> OrderByAscendingMarketValue([FromBody] IEnumerable<Active> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.MarketCap).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.MarketCap).ToList());
 
                 return Json(orderedModel);
             }
@@ -254,20 +254,25 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine("Error in BrazilianDepositaryReceipts/Clean: " + ex.Message);
+
                 return StatusCode(500, "Internal server error");
             }
         }
 
         [HttpPost]
-        public IActionResult RenderTable([FromBody] IEnumerable<Active> updatedModel)
+        public async Task<IActionResult> RenderTable([FromBody] IEnumerable<Active> updatedModel)
         {
             try
             {
-                return PartialView("_TabelaBrazilian", updatedModel);
+                // Renderizar a partial view de forma assíncrona
+                var partialViewResult = await Task.Run(() => PartialView("_TabelaBrazilian", updatedModel));
+
+                return partialViewResult;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error in BrazilianDepositaryReceipts/RenderTable: " + ex.Message);
+
                 return StatusCode(500, "Internal server error");
             }
         }

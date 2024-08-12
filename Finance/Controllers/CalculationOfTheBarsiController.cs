@@ -37,11 +37,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingYield([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByDescendingYield([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderByDescending(b => b.Yield_12m).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Yield_12m).ToList());
+
                 return Json(orderedModel);
             }
             catch (Exception ex)
@@ -52,11 +53,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingYield([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByAscendingYield([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Yield_12m).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Yield_12m).ToList());
 
                 return Json(orderedModel);
             }
@@ -70,12 +71,12 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingPrice([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByDescendingPrice([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Price).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Price).ToList());
 
                 return Json(orderedModel);
             }
@@ -89,11 +90,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingPrice([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByAscendingPrice([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Price).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Price).ToList());
 
                 return Json(orderedModel);
             }
@@ -107,13 +108,13 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByDescendingResult([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByDescendingResult([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Result_Year).ToList();
-
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.Result_Year).ToList());
+                
                 return Json(orderedModel);
             }
             catch (Exception ex)
@@ -126,11 +127,11 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByAscendingResult([FromBody] IEnumerable<Barsi> returnService)
+        public async Task<IActionResult> OrderByAscendingResult([FromBody] IEnumerable<Barsi> returnService)
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Result_Year).ToList();
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.Result_Year).ToList());
 
                 return Json(orderedModel);
             }
@@ -144,7 +145,7 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByKindFii([FromBody] IEnumerable<Barsi> model)
+        public async Task<IActionResult> OrderByKindFii([FromBody] IEnumerable<Barsi> model)
         {
             try
             {
@@ -171,7 +172,7 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByKindStock([FromBody] IEnumerable<Barsi> model)
+        public async Task<IActionResult> OrderByKindStock([FromBody] IEnumerable<Barsi> model)
         {
             try
             {
@@ -179,9 +180,9 @@ namespace Finance.Web.Controllers
 
                 if (model.Count().Equals(0))
                 {
-                    var modelResult = _allStockExchangeService.GetAllActive();
+                    var modelResult = await _allStockExchangeService.GetAllActiveAsync();
 
-                    var returnService = _calculationOfTheBarsiService.GetCalculationOfTheBarsi(modelResult);
+                    var returnService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(modelResult);
 
                     model = returnService.Where(b => b.Kind.Equals("stock")).ToList();
                 }
@@ -198,7 +199,7 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderByKindBdr([FromBody] IEnumerable<Barsi> model)
+        public async Task<IActionResult> OrderByKindBdr([FromBody] IEnumerable<Barsi> model)
         {
             try
             {
@@ -206,9 +207,9 @@ namespace Finance.Web.Controllers
 
                 if(model.Count().Equals(0))
                 {
-                    var modelResult = _allStockExchangeService.GetAllActive();
+                    var modelResult = await _allStockExchangeService.GetAllActiveAsync();
 
-                    var returnService = _calculationOfTheBarsiService.GetCalculationOfTheBarsi(modelResult);
+                    var returnService = await _calculationOfTheBarsiService.GetCalculationOfTheBarsiAsync(modelResult);
 
                     model = returnService.Where(b => b.Kind.Equals("bdr")).ToList();
                 }
@@ -243,11 +244,14 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult RenderTable([FromBody] IEnumerable<Barsi> updatedModel)
+        public async Task<IActionResult> RenderTable([FromBody] IEnumerable<Barsi> updatedModel)
         {
             try
             {
-                return PartialView("_TabelaBarsi", updatedModel);
+                // Renderizar a partial view de forma assíncrona
+                var partialViewResult = await Task.Run(() => PartialView("_TabelaBarsi", updatedModel));
+
+                return partialViewResult;
             }
             catch (Exception ex)
             {
