@@ -112,7 +112,7 @@ namespace Finance.Web.Controllers
             try
             {
                 // Ordenar a lista pela coluna Yield em ordem decrescente
-                var orderedModel = returnService.OrderByDescending(b => b.Result).ToList();
+                var orderedModel = returnService.OrderByDescending(b => b.Result_Year).ToList();
 
                 return Json(orderedModel);
             }
@@ -130,7 +130,7 @@ namespace Finance.Web.Controllers
         {
             try
             {
-                var orderedModel = returnService.OrderBy(b => b.Result).ToList();
+                var orderedModel = returnService.OrderBy(b => b.Result_Year).ToList();
 
                 return Json(orderedModel);
             }

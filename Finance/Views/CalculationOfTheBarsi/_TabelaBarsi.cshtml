@@ -8,15 +8,10 @@
             <th id="codigo" name="codigo" scope="col" class="text-center">Código</th>
             <th id="tipo" name="tipo" scope="col" class="text-center">Tipo</th>
             <th id="nome" name="nome" scope="col" class="text-center">Nome</th>
-            <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)
-
-            </th>
-            <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)
-
-            </th>
-            <th id="resultado" name="resultado" scope="col" class="text-center">Resultado
-
-            </th>
+            <th id="yield" name="yield" scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
+            <th id="preco" name="preco" scope="col" class="text-center">Preço(R$)</th>
+            <th id="resultado" name="resultado" scope="col" class="text-center">Resultado/Mês</th>
+            <th id="resultado" name="resultado" scope="col" class="text-center">Resultado/Ano</th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +25,7 @@
                 </td>
                 <td class="text-center capitalize-first-letter">
                     <button id="tipo" name="tipo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
-                        @item.Kind
+                        @item.Kind.ToUpper()
                     </button>
                 </td>
                 <td class="text-center">
@@ -45,13 +40,17 @@
                 </td>
                 <td class="text-center">
                     <button id="price" name="price" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                        R$@item.Price
+                        R$@item.Price.ToString("F2")
                     </button>
                 </td>
-
                 <td class="text-center">
                     <button id="result" name="result" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Resultado(%)">
-                        @item.Result.ToString("F2")%
+                        @item.Result_Month.ToString("F2")%
+                    </button>
+                </td>
+                <td class="text-center">
+                    <button id="result" name="result" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Resultado(%)">
+                        @item.Result_Year.ToString("F2")%
                     </button>
                 </td>
             </tr>

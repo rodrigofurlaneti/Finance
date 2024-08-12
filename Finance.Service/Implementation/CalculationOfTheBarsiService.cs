@@ -40,8 +40,9 @@ namespace Finance.Service.Implementation
                 Sector = p.Sector,
                 Price = p.Price,
                 Yield_12m = p.Yield_12m,
-                Result = (p.Yield_12m / p.Price) * 100
-            }).OrderByDescending(p => p.Result).ToList();
+                Result_Year = (p.Yield_12m / p.Price) * 100,
+                Result_Month = ((p.Yield_12m / p.Price) * 100 / 12 )
+            }).OrderByDescending(p => p.Result_Year).ToList();
 
             return result;
         }
@@ -62,9 +63,10 @@ namespace Finance.Service.Implementation
                         Sector = item.Sector,
                         Price = item.Price,
                         Yield_12m = item.Financials.Dividends.Yield_12m_sum,
-                        Result = (item.Financials.Dividends.Yield_12m_sum / item.Price) * 100
+                        Result_Year = (item.Financials.Dividends.Yield_12m_sum / item.Price) * 100,
+                        Result_Month = ((item.Financials.Dividends.Yield_12m_sum / item.Price) * 100 / 12)
                     })
-                    .OrderByDescending(p => p.Result)
+                    .OrderByDescending(p => p.Result_Year)
                     .ToList();
 
                 return result.AsEnumerable();

@@ -21,7 +21,9 @@ namespace Finance.Domain
         public decimal Price { get; set; }
         [JsonPropertyName("change_percent")]
         public decimal Yield_12m { get; set; }
-        [JsonPropertyName("result")]
-        public decimal Result { get; set; }
+        [JsonPropertyName("result_year")]
+        public decimal Result_Year { get; set; }
+        [JsonPropertyName("result_month")]
+        public decimal Result_Month { get; set; }
     }
 }
