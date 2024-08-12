@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Active>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Imagem</th>
+            <th scope="col" class="text-center">Código</th>
+            <th scope="col" class="text-center">Nome</th>
+            <th scope="col" class="text-center">Preço(R$)</th>
+            <th scope="col" class="text-center">Mudança últ. dia(%)</th>
+            <th scope="col" class="text-center">Variação últ. dia(R$)</th>
+            <th scope="col" class="text-center">Yield últ. 12 meses(%)</th>
+            <th scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
+            <th scope="col" class="text-center">Valor de mercado (em milhões)</th>
+            <th scope="col" class="text-center">Site</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row"><img style="height:40px;" src="@item.Logo.Small" /></th>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
+                            @item.Symbol
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Document">
+                            @item.CompanyName
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                            R$@item.Price.ToString("F2")
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
+                            @item.ChangePercent.ToString("F2")%
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
+                            R$@item.ChangePrice.ToString("F2")
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
+                            @item.Financials.Dividends.Yield_12m.ToString("F2")%
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
+                            R$@item.Financials.Dividends.Yield_12m_sum.ToString("F2")
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Valor de mercado (em milhões)">
+                            R$@item.MarketCap
+                        </button>
+                    </td>
+                    <td><a href="@item.Website">@item.Name</a></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
+    </tbody>
+</table>
+<h6>Total de ativos nesta pagina: @Model.Count()</h6>

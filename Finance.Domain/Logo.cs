@@ -14,21 +14,21 @@ namespace Finance.Domain
         public string IdLogo
         {
             get => idLogo;
-            set => idLogo = value ?? throw new ArgumentNullException(nameof(IdLogo), "IdLogo cannot be null");
+            set => idLogo = value;
         }
 
         [JsonPropertyName("small")]
         public string Small
         {
             get => small;
-            set => small = value ?? throw new ArgumentNullException(nameof(Small), "Small cannot be null");
+            set => small = value;
         }
 
         [JsonPropertyName("big")]
         public string Big
         {
             get => big;
-            set => big = value ?? throw new ArgumentNullException(nameof(Big), "Big cannot be null");
+            set => big = value;
         }
         #endregion
     }

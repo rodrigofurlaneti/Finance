@@ -1,96 +1,170 @@
-﻿@using X.PagedList.Mvc.Core;
-@using X.PagedList;
-@using Finance.Domain;
-@model IPagedList<Active>
+﻿@model IEnumerable<Active>
 
 @if (Model != null)
 {
-    <h5 class="text-end" style="font-weight: 200;"><strong>Total de Ações @Model.TotalItemCount localizados</strong></h5>
+    <h5 class="text-end" style="font-weight: 200;"><strong>Total de Ações @Model.Count() localizados</strong></h5>
 }
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col" class="text-center">Imagem</th>
-            <th scope="col" class="text-center">Código</th>
-            <th scope="col" class="text-center">Nome</th>
-            <th scope="col" class="text-center">Preço(R$)</th>
-            <th scope="col" class="text-center">Mudança últ. dia(%)</th>
-            <th scope="col" class="text-center">Variação últ. dia(R$)</th>
-            <th scope="col" class="text-center">Yield últ. 12 meses(%)</th>
-            <th scope="col" class="text-center">Yield últ. 12 meses(R$)</th>
-            <th scope="col" class="text-center">Valor de mercado (em milhões)</th>
-            <th scope="col" class="text-center">Site</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <th scope="row"><img style="height:40px;" src="@item.Logo.Small" /></th>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
-                            @item.Symbol
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="@item.Document">
-                            @item.CompanyName
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                            R$@item.Price
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
-                            @item.ChangePercent%
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
-                            R$@item.ChangePrice
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
-                            @item.Financials.Dividends.Yield_12m%
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
-                            R$@item.Financials.Dividends.Yield_12m_sum
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Valor de mercado (em milhões)">
-                            R$@item.MarketCap
-                        </button>
-                    </td>
-                    <td><a href="@item.Website">@item.Name</a></td>
-                </tr>
-            }
-        }
-        else
-        {
-            <h5>Falta banco de dados!</h5>
-        }
-    </tbody>
-</table>
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorPriceDesc" name="ordenarPorPriceDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Preço R$</button>
+    <button type="button" id="ordenarPorPriceAsc" name="ordenarPorPriceAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
 
-<div class="text-center">
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorChangeLastDayDesc" name="ordenarPorChangeLastDayDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Mudança dia %</button>
+    <button type="button" id="ordenarPorChangeLastDayAsc" name="ordenarPorChangeLastDayAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
 
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
-    {
-        DisplayLinkToIndividualPages = true,
-        DisplayPageCountAndCurrentLocation = false,
-        MaximumPageNumbersToDisplay = 10,
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" },
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorLastDayVariationDesc" name="ordenarPorLastDayVariationDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Variação dia R$</button>
+    <button type="button" id="ordenarPorLastDayVariationAsc" name="ordenarPorLastDayVariationAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
 
-    })
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorYieldLastTwelveMonthsPercentageDesc" name="ordenarPorYieldLastTwelveMonthsPercentageDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Yield 12 meses %</button>
+    <button type="button" id="ordenarPorYieldLastTwelveMonthsPercentageAsc" name="ordenarPorYieldLastTwelveMonthsPercentageAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorYieldLastTwelveRealMonthsDesc" name="ordenarPorYieldLastTwelveRealMonthsDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Yield 12 meses R$</button>
+    <button type="button" id="ordenarPorYieldLastTwelveRealMonthsAsc" name="ordenarPorYieldLastTwelveRealMonthsAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorMarketValueDesc" name="ordenarPorMarketValueDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Valor de mercado R$</button>
+    <button type="button" id="ordenarPorMarketValueAsc" name="ordenarPorMarketValueAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div id="tabelaContainer">
+
+    @Html.Partial("_TabelaStock", Model)
 
 </div>
+
+<script>
+
+    var model = @Html.Raw(Json.Serialize(Model));
+
+    function updateModelAndRender(url) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(model)
+        })
+            .then(response => response.json())
+            .then(updatedModel => {
+                model = updatedModel; // Atualize o modelo com a resposta do servidor
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function renderTable(updatedModel) {
+        fetch('/StockExchange/RenderTable', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedModel)
+        })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("tabelaContainer").innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function cleanModelAndRender() {
+        fetch('/StockExchange/Clean')
+            .then(response => response.json())
+            .then(cleanedModel => {
+                model = cleanedModel; // Atualize o modelo com o modelo limpo
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        document.getElementById("ordenarPorPriceAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingPrice');
+        });
+
+        document.getElementById("ordenarPorPriceDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingPrice');
+        });
+
+        document.getElementById("ordenarPorChangeLastDayAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingChangeLastDay');
+        });
+
+        document.getElementById("ordenarPorChangeLastDayDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingChangeLastDay');
+        });
+
+        document.getElementById("ordenarPorLastDayVariationAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingLastDayVariation');
+        });
+
+        document.getElementById("ordenarPorLastDayVariationDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingLastDayVariation');
+        });
+
+        document.getElementById("ordenarPorYieldLastTwelveMonthsPercentageAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingYieldLastTwelveMonthsPercentage');
+        });
+
+        document.getElementById("ordenarPorYieldLastTwelveMonthsPercentageDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingYieldLastTwelveMonthsPercentage');
+        });
+
+        document.getElementById("ordenarPorYieldLastTwelveRealMonthsAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingYieldLastTwelveRealMonths');
+        });
+
+        document.getElementById("ordenarPorYieldLastTwelveRealMonthsDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingYieldLastTwelveRealMonths');
+        });
+
+        document.getElementById("ordenarPorMarketValueAsc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByAscendingMarketValue');
+        });
+
+        document.getElementById("ordenarPorMarketValueDesc").addEventListener("click", function () {
+            updateModelAndRender('/StockExchange/OrderByDescendingMarketValue');
+        });
+
+    });
+</script>
