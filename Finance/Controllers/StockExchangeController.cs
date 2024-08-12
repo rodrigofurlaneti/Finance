@@ -1,9 +1,6 @@
 ﻿using Finance.Domain;
-using Finance.Service.Implementation;
 using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using X.PagedList.Extensions;
 
 namespace Finance.Web.Controllers
 {
@@ -16,7 +13,7 @@ namespace Finance.Web.Controllers
             _stockExchangeService = stockExchangeService;
         }
 
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
             var items = await _stockExchangeService.GetStockExchangeActiveAsync();
 
@@ -37,7 +34,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingPrice: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingPrice: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -55,7 +52,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingYield: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingYield: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -74,7 +71,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingChangeLastDay: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingChangeLastDay: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -92,7 +89,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingChangeLastDay: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingChangeLastDay: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -111,7 +108,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingLastDayVariation: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingLastDayVariation: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -129,7 +126,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingLastDayVariation: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingLastDayVariation: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -148,7 +145,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingYieldLastTwelveMonthsPercentage: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingYieldLastTwelveMonthsPercentage: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -166,7 +163,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingYieldLastTwelveMonthsPercentage: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingYieldLastTwelveMonthsPercentage: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -185,7 +182,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingYieldLastTwelveMonthsPercentage: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingYieldLastTwelveMonthsPercentage: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -203,7 +200,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingYieldLastTwelveMonthsPercentage: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingYieldLastTwelveMonthsPercentage: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -222,7 +219,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByDescendingMarketValue: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByDescendingMarketValue: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -240,7 +237,7 @@ namespace Finance.Web.Controllers
             catch (Exception ex)
             {
                 // Log the error
-                Console.WriteLine("Error in StockExchangeController/OrderByAscendingMarketValue: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/OrderByAscendingMarketValue: " + ex.Message);
 
                 return StatusCode(500, "Internal server error");
             }
@@ -257,7 +254,7 @@ namespace Finance.Web.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in StockExchangeController/Clean: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/Clean: " + ex.Message);
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -271,7 +268,7 @@ namespace Finance.Web.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error in StockExchangeController/RenderTable: " + ex.Message);
+                Console.WriteLine("Error in StockExchange/RenderTable: " + ex.Message);
                 return StatusCode(500, "Internal server error");
             }
         }
