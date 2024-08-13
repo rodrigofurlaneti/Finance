@@ -1,5 +1,6 @@
 ﻿using Finance.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
 
 namespace Finance.Tests.Web.Controllers
 {

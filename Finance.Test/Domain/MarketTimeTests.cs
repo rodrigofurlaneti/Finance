@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Finance.Domain;
+using Xunit;
 
 namespace Finance.Tests.Domain
 {
