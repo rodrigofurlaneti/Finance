@@ -18,7 +18,8 @@ namespace Finance.Tests.Domain
                 .RuleFor(b => b.Sector, f => f.Commerce.Department())
                 .RuleFor(b => b.Price, f => f.Finance.Amount())
                 .RuleFor(b => b.Yield_12m, f => f.Finance.Amount())
-                .RuleFor(b => b.Result, f => f.Finance.Amount());
+                .RuleFor(b => b.Result_Month, f => f.Finance.Amount())
+                .RuleFor(b => b.Result_Year, f => f.Finance.Amount());
 
             // Act
             var barsi = faker.Generate();
@@ -33,7 +34,8 @@ namespace Finance.Tests.Domain
             Assert.NotNull(barsi.Sector);
             Assert.True(barsi.Price > 0);
             Assert.True(barsi.Yield_12m > 0);
-            Assert.True(barsi.Result > 0);
+            Assert.True(barsi.Result_Month > 0);
+            Assert.True(barsi.Result_Year > 0);
 
             // Output for demonstration
             Console.WriteLine($"Kind: {barsi.Kind}");
@@ -44,7 +46,8 @@ namespace Finance.Tests.Domain
             Console.WriteLine($"Sector: {barsi.Sector}");
             Console.WriteLine($"Price: {barsi.Price}");
             Console.WriteLine($"Yield_12m: {barsi.Yield_12m}");
-            Console.WriteLine($"Result: {barsi.Result}");
+            Console.WriteLine($"Result_Month: {barsi.Result_Month}");
+            Console.WriteLine($"Result_Year: {barsi.Result_Year}");
         }
 
         [Fact]
@@ -76,10 +79,11 @@ namespace Finance.Tests.Domain
             // Arrange
             var decimalProperties = new[]
             {
-            nameof(Barsi.Price),
-            nameof(Barsi.Yield_12m),
-            nameof(Barsi.Result)
-        };
+                nameof(Barsi.Price),
+                nameof(Barsi.Yield_12m),
+                nameof(Barsi.Result_Month),
+                nameof(Barsi.Result_Year),
+            };
 
             // Act & Assert
             foreach (var propertyName in decimalProperties)

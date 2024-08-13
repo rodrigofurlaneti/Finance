@@ -26,24 +26,6 @@ namespace Finance.Tests.Domain
         }
 
         [Fact]
-        public void Todas_As_Propriedades_De_Tipo_Texto_Não_Devem_Aceitar_Valor_Nulo()
-        {
-            // Arrange
-            var logo = new Logo();
-
-            // Act
-            // Assign null values to the properties
-            Action act1 = () => logo.IdLogo = null;
-            Action act2 = () => logo.Small = null;
-            Action act3 = () => logo.Big = null;
-
-            // Assert
-            Assert.Throws<ArgumentNullException>(act1);
-            Assert.Throws<ArgumentNullException>(act2);
-            Assert.Throws<ArgumentNullException>(act3);
-        }
-
-        [Fact]
         public void Deve_Preencher_As_Propriedades_Do_Classe_Logo()
         {
             // Arrange

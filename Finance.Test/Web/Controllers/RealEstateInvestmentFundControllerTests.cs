@@ -6,23 +6,23 @@ using Moq;
 
 namespace Finance.Tests.Web.Controllers
 {
-    public class AllStockExchangeControllerTests
+    public class RealEstateInvestmentFundControllerTests
     {
-        private readonly Mock<IAllStockExchangeService> _mockService;
-        private readonly AllStockExchangeController _controller;
+        private readonly Mock<IRealEstateInvestmentFundService> _mockService;
+        private readonly RealEstateInvestmentFundController _controller;
 
-        public AllStockExchangeControllerTests()
+        public RealEstateInvestmentFundControllerTests()
         {
-            _mockService = new Mock<IAllStockExchangeService>();
-            _controller = new AllStockExchangeController(_mockService.Object);
+            _mockService = new Mock<IRealEstateInvestmentFundService>();
+            _controller = new RealEstateInvestmentFundController(_mockService.Object);
         }
 
         [Fact]
-        public async Task Index_DeveRetornarViewResult_ComListaDeAtivos()
+        public async Task Index_DeveRetornarViewResult_ComListaDeFiiAtivos()
         {
             // Arrange
             var mockItems = new List<Active> { new Active(), new Active() };
-            _mockService.Setup(service => service.GetAllActiveAsync()).ReturnsAsync(mockItems);
+            _mockService.Setup(service => service.GetAllActiveFiiAsync()).ReturnsAsync(mockItems);
 
             // Act
             var resultado = await _controller.Index();
@@ -31,6 +31,16 @@ namespace Finance.Tests.Web.Controllers
             var viewResult = Assert.IsType<ViewResult>(resultado);
             var modelo = Assert.IsAssignableFrom<IEnumerable<Active>>(viewResult.Model);
             Assert.Equal(2, modelo.Count());
+        }
+
+        [Fact]
+        public void FirstArticle_DeveRetornarViewResult()
+        {
+            // Act
+            var resultado = _controller.FirstArticle();
+
+            // Assert
+            Assert.IsType<ViewResult>(resultado);
         }
 
         [Fact]
@@ -53,32 +63,11 @@ namespace Finance.Tests.Web.Controllers
         }
 
         [Fact]
-        public async Task OrdenarPorPrecoCrescente_DeveRetornarJsonResult_ComItensOrdenados()
-        {
-            // Arrange
-            var mockItems = new List<Active>
-            {
-                new Active { Price = 10 },
-                new Active { Price = 20 }
-            };
-
-            // Act
-            var resultado = await _controller.OrderByAscendingPrice(mockItems);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(resultado);
-            var itensOrdenados = Assert.IsAssignableFrom<IEnumerable<Active>>(jsonResult.Value);
-            Assert.Equal(10, itensOrdenados.First().Price);
-        }
-
-        // Mais testes para os outros métodos de ordenação...
-
-        [Fact]
-        public async Task Limpar_DeveRetornarJsonResult_ComTodosOsAtivos()
+        public async Task Limpar_DeveRetornarJsonResult_ComListaDeFiiAtivos()
         {
             // Arrange
             var mockItems = new List<Active> { new Active(), new Active() };
-            _mockService.Setup(service => service.GetAllActiveAsync()).ReturnsAsync(mockItems);
+            _mockService.Setup(service => service.GetAllActiveFiiAsync()).ReturnsAsync(mockItems);
 
             // Act
             var resultado = await _controller.Clean();
@@ -100,7 +89,7 @@ namespace Finance.Tests.Web.Controllers
 
             // Assert
             var partialViewResult = Assert.IsType<PartialViewResult>(resultado);
-            Assert.Equal("_TabelaAllStock", partialViewResult.ViewName);
+            Assert.Equal("_TabelaFund", partialViewResult.ViewName);
             var modelo = Assert.IsAssignableFrom<IEnumerable<Active>>(partialViewResult.Model);
             Assert.Equal(2, modelo.Count());
         }

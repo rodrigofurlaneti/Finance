@@ -21,7 +21,8 @@ namespace Finance.Tests.Helpers.PopularClassWithFakeData
            .RuleFor(b => b.Sector, f => f.Commerce.Department())
            .RuleFor(b => b.Price, f => f.Random.Decimal(10, 500))
            .RuleFor(b => b.Yield_12m, f => f.Random.Decimal(-5, 5))
-           .RuleFor(b => b.Result, f => f.Random.Decimal(1000, 100000));
+           .RuleFor(b => b.Result_Month, f => f.Random.Decimal(1000, 100000))
+           .RuleFor(b => b.Result_Year, f => f.Random.Decimal(1000, 100000));
 
             return faker.Generate();
         }
@@ -37,7 +38,8 @@ namespace Finance.Tests.Helpers.PopularClassWithFakeData
            .RuleFor(b => b.Sector, f => f.Commerce.Department())
            .RuleFor(b => b.Price, f => f.Random.Decimal(10, 500))
            .RuleFor(b => b.Yield_12m, f => f.Random.Decimal(-5, 5))
-           .RuleFor(b => b.Result, f => f.Random.Decimal(1000, 100000));
+           .RuleFor(b => b.Result_Month, f => f.Random.Decimal(1000, 100000))
+           .RuleFor(b => b.Result_Year, f => f.Random.Decimal(1000, 100000));
 
             return faker.Generate(10);
         }
