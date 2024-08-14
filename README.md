@@ -1,3 +1,6 @@
+# Cobertura de código
+
+![Finance](https://github.com/rodrigofurlaneti/Finance/blob/master/report/Cobertura.png)
 
 Install (run as admin)
 dotnet tool install -g dotnet-coverage
