@@ -1,3 +1,6 @@
+
+<iframe src="[caminho/para/sua/pagina.html](https://github.com/rodrigofurlaneti/Finance/blob/master/report/index.html)" width="100%" height="100%"></iframe>
+
 Install (run as admin)
 dotnet tool install -g dotnet-coverage
 dotnet tool install -g dotnet-reportgenerator-globaltool
