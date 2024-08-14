@@ -1,4 +1,4 @@
-[Veja a página completa aqui]([caminho/para/sua/pagina.html](https://github.com/rodrigofurlaneti/Finance/blob/master/report/index.html))
+
 Install (run as admin)
 dotnet tool install -g dotnet-coverage
 dotnet tool install -g dotnet-reportgenerator-globaltool
