@@ -1,13 +1,17 @@
 ﻿using Finance.Data.Interface;
 using Finance.Domain;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Finance.Data.Repository
 {
     public class BrazilianDepositaryReceiptsData : IBrazilianDepositaryReceiptsData
     {
-        static string connectionString = "Server=rodrigofurlaneti3108_Finance.sqlserver.dbaas.com.br,1433;Database=rodrigofurlaneti3108_Finance;User Id=rodrigofurlaneti3108_Finance;Password=Digo310884@";
+        private readonly IDbConnectionWrapper _connection;
+
+        public BrazilianDepositaryReceiptsData(IDbConnectionWrapper connection)
+        {
+            _connection = connection;
+        }
 
         public List<Active> GetAllActiveBdr()
         {
@@ -15,15 +19,15 @@ namespace Finance.Data.Repository
 
             string storedProcedureName = "Finance_Procedure_Active_GetByKind_Bdr";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (var command = _connection.CreateCommand())
             {
-                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.SetCommandText(storedProcedureName);
 
-                    connection.Open();
+                command.SetCommandType(CommandType.StoredProcedure);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                _connection.Open();
+
+                using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -61,7 +65,6 @@ namespace Finance.Data.Repository
                             active.UpdatedAt = reader.GetString(reader.GetOrdinal("Updated_at"));
                             listActive.Add(active);
                         }
-                    }
                 }
             }
 
@@ -74,17 +77,17 @@ namespace Finance.Data.Repository
 
             string storedProcedureName = "Finance_Procedure_Active_GetByKind_Bdr";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (var command = _connection.CreateCommand())
             {
-                using (SqlCommand command = new SqlCommand(storedProcedureName, connection))
+                command.SetCommandText(storedProcedureName);
+
+                command.SetCommandType(CommandType.StoredProcedure);
+
+                _connection.Open();
+
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-
-                    connection.Open();
-
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
+                    while (await reader.ReadAsync())
                         {
                             Active active = new Active();
                             active.IdActive = reader.GetInt32(reader.GetOrdinal("IdActive"));
@@ -120,7 +123,6 @@ namespace Finance.Data.Repository
                             active.UpdatedAt = reader.GetString(reader.GetOrdinal("Updated_at"));
                             listActive.Add(active);
                         }
-                    }
                 }
             }
 

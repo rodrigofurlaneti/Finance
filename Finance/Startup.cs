@@ -16,6 +16,9 @@ public class Startup
     // Este método é chamado pelo runtime. Use este método para adicionar serviços ao contêiner.
     public void ConfigureServices(IServiceCollection services)
     {
+        // Supondo que a string de conexão esteja no arquivo de configuração "appsettings.json"
+        var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
         // Outros serviços configurados
         services.AddHttpClient();
 
@@ -25,6 +28,11 @@ public class Startup
         services.AddControllersWithViews();
 
         // Registro dos serviços de dados
+
+        // Registrar o SqlConnectionWrapper
+        services.AddScoped<IDbConnectionWrapper>(provider => new SqlConnectionWrapper(connectionString));
+        
+        // Registrar o AllStockExchangeData
         services.AddScoped<IAllStockExchangeData, AllStockExchangeData>();
         services.AddScoped<IBrazilianDepositaryReceiptsData, BrazilianDepositaryReceiptsData>();
         services.AddScoped<IRealEstateInvestmentFundData, RealEstateInvestmentFundData>();
