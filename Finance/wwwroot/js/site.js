@@ -15,5 +15,5 @@
     document.body.removeChild(tempInput);
 
     // Opcional: Mostra uma mensagem de feedback ao usuário
-    alert("Código copiado: " + value);
+    alert("Copiado: " + value);
 }

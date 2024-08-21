@@ -28,6 +28,7 @@
                     <td>
                         <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
                             R$@item.Price.ToString("F2")
+                            <img src="~/icon/copy.png" onclick="copyToClipboard('@item.Price.ToString("F2")')" style="height:14px;" />
                         </button>
                     </td>
                     <td>
