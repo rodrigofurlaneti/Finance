@@ -1,4 +1,19 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function copyToClipboard(value) {
+    // Cria um elemento de texto temporário
+    var tempInput = document.createElement("input");
+    tempInput.style.position = "absolute";
+    tempInput.style.left = "-9999px";
+    tempInput.value = value;
+    document.body.appendChild(tempInput);
 
-// Write your JavaScript code.
+    // Seleciona e copia o valor
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // Para dispositivos móveis
+    document.execCommand("copy");
+
+    // Remove o elemento temporário
+    document.body.removeChild(tempInput);
+
+    // Opcional: Mostra uma mensagem de feedback ao usuário
+    alert("Código copiado: " + value);
+}

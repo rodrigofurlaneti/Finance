@@ -21,6 +21,7 @@
                 <td class="text-center">
                     <button id="codigo" name="codigo" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Código">
                         @item.Symbol
+                        <img src="~/icon/copy.png" onclick="copyToClipboard('@item.Symbol')" style="height:14px;" />
                     </button>
                 </td>
                 <td class="text-center capitalize-first-letter">
