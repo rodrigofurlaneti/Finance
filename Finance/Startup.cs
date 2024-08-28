@@ -22,6 +22,18 @@ public class Startup
         // Outros serviços configurados
         services.AddHttpClient();
 
+        // Adiciona o serviço CORS
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+        });
+
         services.Configure<GoogleReCaptchaSettings>(Configuration.GetSection("GoogleReCaptcha"));
 
         // Adicione outros serviços necessários, como suporte para MVC
@@ -38,6 +50,8 @@ public class Startup
         services.AddScoped<IRealEstateInvestmentFundData, RealEstateInvestmentFundData>();
         services.AddScoped<IStockExchangeData, StockExchangeData>();
         services.AddScoped<IActiveGetHighLowB3Data, ActiveGetHighLowB3Data>();
+        services.AddScoped<IAccessLogData, AccessLogData>();
+        services.AddScoped<IGeolocationData, GeolocationData>();
 
         // Registro dos serviços
         services.AddScoped<IAllStockExchangeService, AllStockExchangeService>(); 
@@ -48,6 +62,8 @@ public class Startup
         services.AddScoped<IStockExchangeService, StockExchangeService>();
         services.AddScoped<ILynchMethodologyService, LynchMethodologyService>();
         services.AddScoped<IActiveGetHighLowB3Service, ActiveGetHighLowB3Service>();
+        services.AddScoped<IAccessLogService, AccessLogService>();
+        services.AddScoped<IGeolocationService, GeolocationService>();
     }
 
     // Este método é chamado pelo runtime. Use este método para configurar o pipeline de solicitação HTTP.

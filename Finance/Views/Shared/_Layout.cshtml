@@ -92,6 +92,102 @@
 
 <script>
     $(document).ready(function () {
+
+        // Captura a localização geográfica e o endereço IP
+        function getAccessData() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendAccessData, showError);
+            } else {
+                console.log("Geolocalização não é suportada por este navegador.");
+            }
+        }
+
+        function sendAccessData(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            let userAgent = navigator.userAgent;
+
+            // Identificando o sistema operacional
+            if (navigator.userAgent.indexOf("Windows NT 10.0") != -1) userAgent = "Windows 10";
+            if (navigator.userAgent.indexOf("Windows NT 6.3") != -1) userAgent = "Windows 8.1";
+            if (navigator.userAgent.indexOf("Windows NT 6.2") != -1) userAgent = "Windows 8";
+            if (navigator.userAgent.indexOf("Windows NT 6.1") != -1) userAgent = "Windows 7";
+            if (navigator.userAgent.indexOf("Windows NT 6.0") != -1) userAgent = "Windows Vista";
+            if (navigator.userAgent.indexOf("Windows NT 5.2") != -1) userAgent = "Windows Server 2003/XP x64";
+            if (navigator.userAgent.indexOf("Windows NT 5.1") != -1) userAgent = "Windows XP";
+            if (navigator.userAgent.indexOf("Windows XP") != -1) userAgent = "Windows XP";
+            if (navigator.userAgent.indexOf("Windows NT 5.0") != -1) userAgent = "Windows 2000";
+            if (navigator.userAgent.indexOf("Windows ME") != -1) userAgent = "Windows ME";
+            if (navigator.userAgent.indexOf("win98") != -1) userAgent = "Windows 98";
+            if (navigator.userAgent.indexOf("win95") != -1) userAgent = "Windows 95";
+            if (navigator.userAgent.indexOf("win16") != -1) userAgent = "Windows 3.11";
+            if (navigator.userAgent.indexOf("android") != -1) userAgent = "Android";
+            if (navigator.userAgent.indexOf("Mac") != -1) userAgent = "Mac/iOS";
+            if (navigator.userAgent.indexOf("macintosh|mac os x") != -1) userAgent = "Mac OS X";
+            if (navigator.userAgent.indexOf("mac_powerpc") != -1) userAgent = "Mac OS 9";
+            if (navigator.userAgent.indexOf("iphone") != -1) userAgent = "Iphone";
+            if (navigator.userAgent.indexOf("ipad") != -1) userAgent = "Ipad";
+            if (navigator.userAgent.indexOf("ipod") != -1) userAgent = "Ipod";
+            if (navigator.userAgent.indexOf("X11") != -1) userAgent = "UNIX";
+            if (navigator.userAgent.indexOf("Linux") != -1) userAgent = "Linux";
+            if (navigator.userAgent.indexOf("ubuntu") != -1) userAgent = "Ubuntu";
+            if (navigator.userAgent.indexOf("webos") != -1) userAgent = "Mobile";
+            if (navigator.userAgent.indexOf("blackberry") != -1) userAgent = "Blackberry";
+
+
+            // Obtendo o endereço IP do cliente (usando uma API pública)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const accessLog = {
+                        latitude: latitude.toString(),
+                        longitude: longitude.toString(),
+                        userAgent: userAgent,
+                        internetProtocol: data.ip,
+                        dateInsert: new Date().toISOString()
+                    };
+
+                    // Envia os dados para a API
+                    fetch('/AccessLog/CaptureAccessData', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(accessLog)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Dados de acesso enviados com sucesso:', data);
+                        })
+                        .catch(error => {
+                            console.error('Erro ao enviar dados de acesso:', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Erro ao obter o endereço IP:', error);
+                });
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("Usuário negou a solicitação de Geolocalização.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Informação de localização não está disponível.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("A requisição para obter a localização expirou.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("Um erro desconhecido ocorreu.");
+                    break;
+            }
+        }
+
+        // Chama a função para capturar e enviar os dados de acesso ao carregar a página
+        getAccessData();
+
         // JavaScript to enable the ticker animation
         let ticker = $('.ticker');
         let tickerWidth = ticker.width();
