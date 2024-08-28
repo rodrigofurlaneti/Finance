@@ -26,7 +26,8 @@
                     {
                         <div class="ticker-item">
                             <img src="@active.Logo.Small" alt="@active.Name" class="ticker-logo" />
-                            <span>@active.Name</span>
+                            <span>@active.Name &nbsp</span>
+                            <span>@active.Symbol &nbsp</span>
                             <span>@active.Price.ToString("C")</span>
                             <span class="ticker-change @(active.ChangePercent >= 0 ? "positive" : "negative")">
                                 @(active.ChangePercent >= 0 ? "+" : "")@active.ChangePercent.ToString()
