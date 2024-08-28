@@ -17,23 +17,28 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
 <body>
-    <div class="ticker-container">
-        <div class="ticker-wrap">
-            <div class="ticker">
-                @foreach (var active in highLowB3List)
-                {
-                    <div class="ticker-item">
-                        <img src="@active.Logo.Small" alt="@active.Name" class="ticker-logo" />
-                        <span>@active.Name</span>
-                        <span>@active.Price.ToString("C")</span>
-                        <span class="ticker-change @(active.ChangePercent >= 0 ? "positive" : "negative")">
-                            @(active.ChangePercent >= 0 ? "+" : "")@active.ChangePercent.ToString()
-                        </span>
-                    </div>
-                }
+    @if (highLowB3List != null)
+    {
+        <div class="ticker-container">
+            <div class="ticker-wrap">
+                <div class="ticker">
+                    @foreach (var active in highLowB3List)
+                    {
+                        <div class="ticker-item">
+                            <img src="@active.Logo.Small" alt="@active.Name" class="ticker-logo" />
+                            <span>@active.Name</span>
+                            <span>@active.Price.ToString("C")</span>
+                            <span class="ticker-change @(active.ChangePercent >= 0 ? "positive" : "negative")">
+                                @(active.ChangePercent >= 0 ? "+" : "")@active.ChangePercent.ToString()
+                            </span>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    }
+
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">
         <div class="container">
             <a class="navbar-brand">+</a>
