@@ -24,3 +24,46 @@ body {
 p:first-letter {
     text-transform: uppercase;
 }
+
+.ticker-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+    padding: 10px 0;
+    color: #fff;
+}
+
+.ticker-wrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.ticker {
+    display: flex;
+    white-space: nowrap;
+    transition: transform 0.5s linear;
+}
+
+.ticker-item {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+}
+
+.ticker-logo {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.ticker-change {
+    margin-left: 10px;
+}
+
+    .ticker-change.positive {
+        color: #00FF00; /* Green for positive */
+    }
+
+    .ticker-change.negative {
+        color: #FF0000; /* Red for negative */
+    }

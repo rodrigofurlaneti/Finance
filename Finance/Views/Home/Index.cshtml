@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Finanças - Home Page";
     var siteKey = Configuration["GoogleReCaptcha:SiteKey"];
+    var highB3List = ViewData["HighB3"] as IEnumerable<Finance.Domain.Active>;
 }
 
 <script src="https://www.google.com/recaptcha/api.js"></script>
@@ -177,6 +178,21 @@
 
 <script>
     $(document).ready(function () {
+
+        // JavaScript to enable the ticker animation
+        let ticker = $('.ticker');
+        let tickerWidth = ticker.width();
+        let windowWidth = $(window).width();
+        let speed = 50000;
+
+        function moveTicker() {
+            ticker.animate({ marginLeft: `-${tickerWidth}px` }, speed, 'linear', function () {
+                ticker.css('margin-left', `${windowWidth}px`);
+                moveTicker();
+            });
+        }
+
+        moveTicker();
 
         // Função para validar o formulário
         function validateForm() {

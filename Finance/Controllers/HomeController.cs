@@ -1,4 +1,6 @@
-﻿using Finance.Domain;
+﻿using Finance.Data.Interface;
+using Finance.Domain;
+using Finance.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -8,16 +10,21 @@ namespace Finance.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IActiveGetHighLowB3Service _activeGetHighLowB3Service;
 
-        public HomeController(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+        public HomeController(IConfiguration configuration, IHttpClientFactory httpClientFactory,
+            IActiveGetHighLowB3Service activeGetHighLowB3Service)
         {
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
+            _activeGetHighLowB3Service = activeGetHighLowB3Service;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewData["HighLowB3"] = await _activeGetHighLowB3Service.GetAllActiveHighLowB3Async();
+
             return View();
         }
 
