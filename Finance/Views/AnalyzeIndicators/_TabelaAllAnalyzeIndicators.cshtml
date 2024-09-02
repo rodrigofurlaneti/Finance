@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Indicators>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Código</th>
+            <th scope="col" class="text-center">Valor atual(R$)</th>
+            <th scope="col" class="text-center">Dividend Yield</th>
+            <th scope="col" class="text-center">Preço/Lucro</th>
+            <th scope="col" class="text-center">Preço Valor Patrimonial</th>
+            <th scope="col" class="text-center">Roe</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                            @item.Symbol.ToString()
+                            <img src="~/icon/copy.png" onclick="copyToClipboard('@item.Symbol')" style="height:14px;" />
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
+                            R$@item.Price.ToString()
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
+                            @item.DividendYield
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
+                            @item.PriceProfit
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
+                            @item.PriceOverAssetValue
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
+                            @item.ReturnOnEquity
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <h5>Falta banco de dados!</h5>
+        }
+    </tbody>
+</table>
+<h6>Total de ativos nesta pagina: @Model.Count()</h6>

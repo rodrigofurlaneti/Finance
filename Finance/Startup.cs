@@ -52,6 +52,7 @@ public class Startup
         services.AddScoped<IActiveGetHighLowB3Data, ActiveGetHighLowB3Data>();
         services.AddScoped<IAccessLogData, AccessLogData>();
         services.AddScoped<IGeolocationData, GeolocationData>();
+        services.AddScoped<IAnalyzeIndicatorsData, AnalyzeIndicatorsData>();
 
         // Registro dos serviços
         services.AddScoped<IAllStockExchangeService, AllStockExchangeService>(); 
@@ -64,6 +65,7 @@ public class Startup
         services.AddScoped<IActiveGetHighLowB3Service, ActiveGetHighLowB3Service>();
         services.AddScoped<IAccessLogService, AccessLogService>();
         services.AddScoped<IGeolocationService, GeolocationService>();
+        services.AddScoped<IAnalyzeIndicatorsService, AnalyzeIndicatorsService>();
     }
 
     // Este método é chamado pelo runtime. Use este método para configurar o pipeline de solicitação HTTP.

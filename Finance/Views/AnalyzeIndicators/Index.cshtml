@@ -1,0 +1,176 @@
+﻿@model IEnumerable<Indicators>
+
+@if (Model != null)
+{
+    <h5 class="text-end" style="font-weight: 200;"><strong>Total de Ações @Model.Count() localizados</strong></h5>
+    <h6 class="text-end" style="font-weight: 100;">
+        <strong>
+            Data e hora da última atualização
+            @{
+                var updatedAtString = Model.FirstOrDefault()?.UpdatedAt;
+                if (!string.IsNullOrEmpty(updatedAtString))
+                {
+                    DateTime updatedAt;
+                    if (DateTime.TryParse(updatedAtString, out updatedAt))
+                    {
+                        @updatedAt.ToString("dd/MM/yyyy HH:mm:ss")
+                    }
+                    else
+                    {
+                        @:Formato de data inválido
+                    }
+                }
+                else
+                {
+                    @:Data não disponível
+                }
+            }
+        </strong>
+    </h6>
+}
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorPriceDesc" name="ordenarPorPriceDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Preço R$</button>
+    <button type="button" id="ordenarPorPriceAsc" name="ordenarPorPriceAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorDividendYieldDesc" name="ordenarPorDividendYieldDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Dividend Yield</button>
+    <button type="button" id="ordenarPorDividendYieldAsc" name="ordenarPorDividendYieldAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorPriceProfitDesc" name="ordenarPorPriceProfitDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Preço/Lucro</button>
+    <button type="button" id="ordenarPorPriceProfitAsc" name="ordenarPorPriceProfitAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorPriceOverAssetValueDesc" name="ordenarPorPriceOverAssetValueDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Preço Valor Patrimonial</button>
+    <button type="button" id="ordenarPorPriceOverAssetValueAsc" name="ordenarPorPriceOverAssetValueAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorReturnOnEquityDesc" name="ordenarPorReturnOnEquityDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Roe</button>
+    <button type="button" id="ordenarPorReturnOnEquityAsc" name="ordenarPorReturnOnEquityAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div id="tabelaContainer">
+
+    @Html.Partial("_TabelaAllAnalyzeIndicators", Model)
+
+</div>
+
+<script>
+
+    var model = @Html.Raw(Json.Serialize(Model));
+
+    function updateModelAndRender(url) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(model)
+        })
+            .then(response => response.json())
+            .then(updatedModel => {
+                model = updatedModel; // Atualize o modelo com a resposta do servidor
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function renderTable(updatedModel) {
+        fetch('/AnalyzeIndicators/RenderTable', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedModel)
+        })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("tabelaContainer").innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function cleanModelAndRender() {
+        fetch('/AnalyzeIndicators/Clean')
+            .then(response => response.json())
+            .then(cleanedModel => {
+                model = cleanedModel; // Atualize o modelo com o modelo limpo
+                renderTable(model);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.getElementById("ordenarPorPriceAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingPrice');
+        });
+
+        document.getElementById("ordenarPorPriceDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingPrice');
+        });
+
+        document.getElementById("ordenarPorDividendYieldAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingDividendYield');
+        });
+
+        document.getElementById("ordenarPorDividendYieldDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingDividendYield');
+        });
+
+        document.getElementById("ordenarPorPriceProfitAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingPriceProfit');
+        });
+
+        document.getElementById("ordenarPorPriceProfitDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingPriceProfit');
+        });
+
+        document.getElementById("ordenarPorPriceOverAssetValueAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingPriceOverAssetValue');
+        });
+
+        document.getElementById("ordenarPorPriceOverAssetValueDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingPriceOverAssetValue');
+        });
+
+        document.getElementById("ordenarPorReturnOnEquityAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingReturnOnEquity');
+        });
+
+        document.getElementById("ordenarPorReturnOnEquityDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingReturnOnEquity');
+        });
+
+    });
+</script>
