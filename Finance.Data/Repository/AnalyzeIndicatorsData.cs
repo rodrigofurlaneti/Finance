@@ -39,11 +39,11 @@ namespace Finance.Data.Repository
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Symbol = reader.GetString(reader.GetOrdinal("Symbol")),
-                            Price = reader.GetString(reader.GetOrdinal("Price")),
-                            DividendYield = reader.GetString(reader.GetOrdinal("DividendYield")),
-                            PriceProfit = reader.GetString(reader.GetOrdinal("PriceProfit")),
-                            PriceOverAssetValue = reader.GetString(reader.GetOrdinal("PriceOverAssetValue")),
-                            ReturnOnEquity = reader.GetString(reader.GetOrdinal("ReturnOnEquity")),
+                            Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                            DividendYield = reader.GetDecimal(reader.GetOrdinal("DividendYield")),
+                            PriceProfit = reader.GetDecimal(reader.GetOrdinal("PriceProfit")),
+                            PriceOverAssetValue = reader.GetDecimal(reader.GetOrdinal("PriceOverAssetValue")),
+                            ReturnOnEquity = reader.GetDecimal(reader.GetOrdinal("ReturnOnEquity")),
                             UpdatedAt = reader.GetString(reader.GetOrdinal("Updated_at"))
                         };
                         listActive.Add(active);

@@ -6,8 +6,8 @@
             <th scope="col" class="text-center">Código</th>
             <th scope="col" class="text-center">Valor atual(R$)</th>
             <th scope="col" class="text-center">Dividend Yield</th>
-            <th scope="col" class="text-center">Preço/Lucro</th>
-            <th scope="col" class="text-center">Preço Valor Patrimonial</th>
+            <th scope="col" class="text-center">P/L Preço/Lucro</th>
+            <th scope="col" class="text-center">P/VP Preço Valor Patrimonial</th>
             <th scope="col" class="text-center">Roe</th>
         </tr>
     </thead>
@@ -16,36 +16,42 @@
         {
             foreach (var item in Model)
             {
+                string priceClass = GetPriceColorClass(item.Price);
+                string dividendYieldClass = GetDividendYieldColorClass(item.DividendYield);
+                string priceProfitClass = GetPriceProfitColorClass(item.PriceProfit);
+                string priceOverAssetValueClass = GetPriceOverAssetValueColorClass(item.PriceOverAssetValue);
+                string returnOnEquityClass = GetReturnOnEquityColorClass(item.ReturnOnEquity);
+
                 <tr>
                     <td class="text-center">
                         <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                            @item.Symbol.ToString()
+                            @item.Symbol
                             <img src="~/icon/copy.png" onclick="copyToClipboard('@item.Symbol')" style="height:14px;" />
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
-                            R$@item.Price.ToString()
+                        <button type="button" class="btn font-weight-bold @priceClass" data-toggle="tooltip" data-placement="top" title="Preço">
+                            R$@item.Price
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Mudança últ. dia(%)">
-                            @item.DividendYield
+                        <button type="button" class="btn font-weight-bold @dividendYieldClass" data-toggle="tooltip" data-placement="top" title="Dividend Yield">
+                            @item.DividendYield %
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Variação últ. dia(R$)">
+                        <button id="priceProfit" name="priceProfit" type="button" class="btn font-weight-bold @priceProfitClass" data-toggle="tooltip" data-placement="top" title="P/L Preço/Lucro">
                             @item.PriceProfit
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(%)">
+                        <button id="priceOverAssetValue" name="priceOverAssetValue" type="button" class="btn font-weight-bold @priceOverAssetValueClass" data-toggle="tooltip" data-placement="top" title="P/VP Preço Valor Patrimonial">
                             @item.PriceOverAssetValue
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Yield últ. 12 meses(R$)">
-                            @item.ReturnOnEquity
+                        <button id="returnOnEquity" name="returnOnEquity" type="button" class="btn font-weight-bold @returnOnEquityClass" data-toggle="tooltip" data-placement="top" title="Roe">
+                            @item.ReturnOnEquity %
                         </button>
                     </td>
                 </tr>
@@ -57,4 +63,87 @@
         }
     </tbody>
 </table>
-<h6>Total de ativos nesta pagina: @Model.Count()</h6>
+<h6>Total de ativos nesta página: @Model.Count()</h6>
+
+@functions {
+
+    private string GetPriceColorClass(decimal value)
+    {
+        if (value >= 20.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 10.00m && value < 20.49m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetPriceOverAssetValueColorClass(decimal value)
+    {
+        if (value >= 1.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 1.00m && value < 1.50m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetPriceProfitColorClass(decimal value)
+    {
+        if (value >= 5.00m)
+        {
+            return "text-danger";
+        }
+        else if (value <= 4.99m && value >= 2.00m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetReturnOnEquityColorClass(decimal value)
+    {
+        if (value <= 10.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 10.51m && value <= 11.50m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetDividendYieldColorClass(decimal value)
+    {
+        if (value <= 10.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 10.51m && value <= 11.50m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+}
