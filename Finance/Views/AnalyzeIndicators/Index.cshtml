@@ -43,7 +43,7 @@
     <button type="button" id="ordenarPorDividendYieldDesc" name="ordenarPorDividendYieldDesc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
     </button>
-    <button type="button" class="btn btn-primary btn-sm">Dividend Yield</button>
+    <button type="button" class="btn btn-primary btn-sm">DY</button>
     <button type="button" id="ordenarPorDividendYieldAsc" name="ordenarPorDividendYieldAsc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
     </button>
@@ -53,7 +53,7 @@
     <button type="button" id="ordenarPorPriceProfitDesc" name="ordenarPorPriceProfitDesc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
     </button>
-    <button type="button" class="btn btn-primary btn-sm">Preço/Lucro</button>
+    <button type="button" class="btn btn-primary btn-sm">P/L</button>
     <button type="button" id="ordenarPorPriceProfitAsc" name="ordenarPorPriceProfitAsc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
     </button>
@@ -63,11 +63,43 @@
     <button type="button" id="ordenarPorPriceOverAssetValueDesc" name="ordenarPorPriceOverAssetValueDesc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
     </button>
-    <button type="button" class="btn btn-primary btn-sm">Preço Valor Patrimonial</button>
+    <button type="button" class="btn btn-primary btn-sm">P/VP</button>
     <button type="button" id="ordenarPorPriceOverAssetValueAsc" name="ordenarPorPriceOverAssetValueAsc" class="btn btn-primary btn-sm">
         <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
     </button>
 </div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorEvEbitdaDesc" name="ordenarPorEvEbitdaDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Ev/Ebitda</button>
+    <button type="button" id="ordenarPorEvEbitdaAsc" name="ordenarPorEvEbitdaAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorDlEbitdaDesc" name="ordenarPorDlEbitdaDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Dl/Ebitda</button>
+    <button type="button" id="ordenarPorDlEbitdaAsc" name="ordenarPorDlEbitdaAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" id="ordenarPorCompoundAnnualGrowthRateDesc" name="ordenarPorCompoundAnnualGrowthRateDesc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary btn-sm">Carg Lucro</button>
+    <button type="button" id="ordenarPorCompoundAnnualGrowthRateAsc" name="ordenarPorCompoundAnnualGrowthRateAsc" class="btn btn-primary btn-sm">
+        <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+    </button>
+</div>
+
+
 
 <div class="btn-group" role="group" aria-label="Basic example">
     <button type="button" id="ordenarPorReturnOnEquityDesc" name="ordenarPorReturnOnEquityDesc" class="btn btn-primary btn-sm">
@@ -162,6 +194,30 @@
 
         document.getElementById("ordenarPorPriceOverAssetValueDesc").addEventListener("click", function () {
             updateModelAndRender('/AnalyzeIndicators/OrderByDescendingPriceOverAssetValue');
+        });
+
+        document.getElementById("ordenarPorEvEbitdaAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingEvEbitda');
+        });
+
+        document.getElementById("ordenarPorEvEbitdaDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingEvEbitda');
+        });
+
+        document.getElementById("ordenarPorDlEbitdaAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingDlEbitda');
+        });
+
+        document.getElementById("ordenarPorDlEbitdaDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingDlEbitda');
+        });
+
+        document.getElementById("ordenarPorCompoundAnnualGrowthRateAsc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByAscendingCompoundAnnualGrowthRate');
+        });
+
+        document.getElementById("ordenarPorCompoundAnnualGrowthRateDesc").addEventListener("click", function () {
+            updateModelAndRender('/AnalyzeIndicators/OrderByDescendingCompoundAnnualGrowthRate');
         });
 
         document.getElementById("ordenarPorReturnOnEquityAsc").addEventListener("click", function () {

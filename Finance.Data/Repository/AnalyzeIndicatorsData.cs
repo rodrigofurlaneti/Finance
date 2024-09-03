@@ -40,10 +40,13 @@ namespace Finance.Data.Repository
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Symbol = reader.GetString(reader.GetOrdinal("Symbol")),
                             Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                            EvEbitda = reader.GetDecimal(reader.GetOrdinal("EvEbitda")),
                             DividendYield = reader.GetDecimal(reader.GetOrdinal("DividendYield")),
                             PriceProfit = reader.GetDecimal(reader.GetOrdinal("PriceProfit")),
                             PriceOverAssetValue = reader.GetDecimal(reader.GetOrdinal("PriceOverAssetValue")),
                             ReturnOnEquity = reader.GetDecimal(reader.GetOrdinal("ReturnOnEquity")),
+                            DlEbitda = reader.GetDecimal(reader.GetOrdinal("DlEbitda")),
+                            CompoundAnnualGrowthRate = reader.GetDecimal(reader.GetOrdinal("CompoundAnnualGrowthRate")),
                             UpdatedAt = reader.GetString(reader.GetOrdinal("Updated_at"))
                         };
                         listActive.Add(active);

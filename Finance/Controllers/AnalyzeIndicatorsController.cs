@@ -59,6 +59,118 @@ namespace Finance.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> OrderByDescendingEvEbitda([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                // Ordenar a lista pela coluna Yield em ordem decrescente
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.EvEbitda).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByDescendingEvEbitda: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderByAscendingEvEbitda([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.EvEbitda).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByAscendingEvEbitda: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderByDescendingDlEbitda([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                // Ordenar a lista pela coluna Yield em ordem decrescente
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.DlEbitda).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByDescendingDlEbitda: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderByAscendingDlEbitda([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.DlEbitda).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByAscendingDlEbitda: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderByDescendingCompoundAnnualGrowthRate([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                // Ordenar a lista pela coluna Yield em ordem decrescente
+                var orderedModel = await Task.Run(() => returnService.OrderByDescending(b => b.CompoundAnnualGrowthRate).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByDescendingCompoundAnnualGrowthRate: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderByAscendingCompoundAnnualGrowthRate([FromBody] IEnumerable<Indicators> returnService)
+        {
+            try
+            {
+                var orderedModel = await Task.Run(() => returnService.OrderBy(b => b.CompoundAnnualGrowthRate).ToList());
+
+                return Json(orderedModel);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine("Error in AnalyzeIndicators/OrderByAscendingCompoundAnnualGrowthRate: " + ex.Message);
+
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> OrderByDescendingDividendYield([FromBody] IEnumerable<Indicators> returnService)
         {
             try

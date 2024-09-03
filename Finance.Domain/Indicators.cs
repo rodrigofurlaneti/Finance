@@ -8,6 +8,8 @@
         public string Symbol { get; set; } = string.Empty;
         //PRICE
         public decimal Price { get; set; } = 0.00m;
+        //EvEbitda
+        public decimal EvEbitda { get; set; } = 0.00m;
         //DY
         public decimal DividendYield { get; set; } = 0.00m;
         //PL = Share Price / Earnings per Share
@@ -16,6 +18,10 @@
         public decimal PriceOverAssetValue { get; set; } = 0.00m;
         //ROE = (Net Profit / Shareholders' Equity) x 100
         public decimal ReturnOnEquity { get; set; } = 0.00m;
+        //DlEbitda
+        public decimal DlEbitda { get; set; } = 0.00m;
+        //CompoundAnnualGrowthRate
+        public decimal CompoundAnnualGrowthRate { get; set; } = 0.00m;
         //UpdateAt
         public string UpdatedAt { get; set; } = string.Empty;
     }

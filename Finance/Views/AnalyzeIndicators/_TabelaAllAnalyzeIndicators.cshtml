@@ -4,10 +4,13 @@
     <thead>
         <tr>
             <th scope="col" class="text-center">Código</th>
-            <th scope="col" class="text-center">Valor atual(R$)</th>
-            <th scope="col" class="text-center">Dividend Yield</th>
-            <th scope="col" class="text-center">P/L Preço/Lucro</th>
-            <th scope="col" class="text-center">P/VP Preço Valor Patrimonial</th>
+            <th scope="col" class="text-center">Valor(R$)</th>
+            <th scope="col" class="text-center">DY</th>
+            <th scope="col" class="text-center">P/L</th>
+            <th scope="col" class="text-center">P/VP</th>
+            <th scope="col" class="text-center">Ev/Ebitda</th>
+            <th scope="col" class="text-center">Dl/Ebitda</th>
+            <th scope="col" class="text-center">Carg Lucro</th>
             <th scope="col" class="text-center">Roe</th>
         </tr>
     </thead>
@@ -20,6 +23,9 @@
                 string dividendYieldClass = GetDividendYieldColorClass(item.DividendYield);
                 string priceProfitClass = GetPriceProfitColorClass(item.PriceProfit);
                 string priceOverAssetValueClass = GetPriceOverAssetValueColorClass(item.PriceOverAssetValue);
+                string evEbitdaClass = GetEvEbitdaClass(item.EvEbitda);
+                string dlEbitdaClass = GetDlEbitdaClass(item.DlEbitda);
+                string compoundAnnualGrowthRateClass = GetCompoundAnnualGrowthRateClass(item.CompoundAnnualGrowthRate);
                 string returnOnEquityClass = GetReturnOnEquityColorClass(item.ReturnOnEquity);
 
                 <tr>
@@ -47,6 +53,21 @@
                     <td class="text-center">
                         <button id="priceOverAssetValue" name="priceOverAssetValue" type="button" class="btn font-weight-bold @priceOverAssetValueClass" data-toggle="tooltip" data-placement="top" title="P/VP Preço Valor Patrimonial">
                             @item.PriceOverAssetValue
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="evEbitda" name="evEbitda" type="button" class="btn font-weight-bold @evEbitdaClass" data-toggle="tooltip" data-placement="top" title="Ev/Ebitda">
+                            @item.EvEbitda
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="dlEbitda" name="dlEbitda" type="button" class="btn font-weight-bold @dlEbitdaClass" data-toggle="tooltip" data-placement="top" title="Dl/Ebitda">
+                            @item.DlEbitda
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="compoundAnnualGrowthRate" name="compoundAnnualGrowthRate" type="button" class="btn font-weight-bold @compoundAnnualGrowthRateClass" data-toggle="tooltip" data-placement="top" title="Carg Lucro">
+                            @item.CompoundAnnualGrowthRate %
                         </button>
                     </td>
                     <td class="text-center">
@@ -132,6 +153,54 @@
     }
 
     private string GetDividendYieldColorClass(decimal value)
+    {
+        if (value <= 10.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 10.51m && value <= 11.50m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetEvEbitdaClass(decimal value)
+    {
+        if (value <= 4.50m)
+        {
+            return "text-danger";
+        }
+        else if (value >= 4.51m && value <= 7.00m)
+        {
+            return "text-success";
+        }
+        else
+        {
+            return "text-warning";
+        }
+    }
+
+    private string GetDlEbitdaClass(decimal value)
+    {
+        if (value >= 2.50m)
+        {
+            return "text-danger";
+        }
+        else if (value <= 2.49m && value >= 0.00m)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
+
+    private string GetCompoundAnnualGrowthRateClass(decimal value)
     {
         if (value <= 10.50m)
         {
