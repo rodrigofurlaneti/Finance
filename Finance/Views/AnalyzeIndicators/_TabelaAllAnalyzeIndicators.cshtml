@@ -170,17 +170,17 @@
 
     private string GetEvEbitdaClass(decimal value)
     {
-        if (value <= 4.50m)
-        {
-            return "text-danger";
-        }
-        else if (value >= 4.51m && value <= 7.00m)
+        if (value <= 9.50m)
         {
             return "text-success";
         }
-        else
+        else if (value >= 9.51m && value <= 12.00m)
         {
             return "text-warning";
+        }
+        else
+        {
+            return "text-danger";
         }
     }
 
