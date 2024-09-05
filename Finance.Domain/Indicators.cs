@@ -22,6 +22,12 @@
         public decimal DlEbitda { get; set; } = 0.00m;
         //CompoundAnnualGrowthRate
         public decimal CompoundAnnualGrowthRate { get; set; } = 0.00m;
+        //EarningsPerShare
+        public decimal EarningsPerShare { get; set; } = 0.00m;
+        //EquityValuePerShare
+        public decimal EquityValuePerShare { get; set; } = 0.00m;
+        //FairValue
+        public decimal FairValue { get; set; } = 0.00m;
         //UpdateAt
         public string UpdatedAt { get; set; } = string.Empty;
     }

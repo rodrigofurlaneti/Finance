@@ -4,9 +4,12 @@
     <thead>
         <tr>
             <th scope="col" class="text-center">Código</th>
-            <th scope="col" class="text-center">Valor(R$)</th>
+            <th scope="col" class="text-center">Atual</th>
+            <th scope="col" class="text-center">Justo</th>
             <th scope="col" class="text-center">DY</th>
             <th scope="col" class="text-center">P/L</th>
+            <th scope="col" class="text-center">LPA</th>
+            <th scope="col" class="text-center">VPA</th>
             <th scope="col" class="text-center">P/VP</th>
             <th scope="col" class="text-center">Ev/Ebitda</th>
             <th scope="col" class="text-center">Dl/Ebitda</th>
@@ -20,6 +23,7 @@
             foreach (var item in Model)
             {
                 string priceClass = GetPriceColorClass(item.Price);
+                string fairValueClass = GetFairValueColorClass(item.Price, item.FairValue);
                 string dividendYieldClass = GetDividendYieldColorClass(item.DividendYield);
                 string priceProfitClass = GetPriceProfitColorClass(item.PriceProfit);
                 string priceOverAssetValueClass = GetPriceOverAssetValueColorClass(item.PriceOverAssetValue);
@@ -27,7 +31,8 @@
                 string dlEbitdaClass = GetDlEbitdaClass(item.DlEbitda);
                 string compoundAnnualGrowthRateClass = GetCompoundAnnualGrowthRateClass(item.CompoundAnnualGrowthRate);
                 string returnOnEquityClass = GetReturnOnEquityColorClass(item.ReturnOnEquity);
-
+                string earningsPerShareClass = GetEarningsPerShareColorClass(item.EarningsPerShare);
+                
                 <tr>
                     <td class="text-center">
                         <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Preço">
@@ -36,37 +41,52 @@
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn font-weight-bold @priceClass" data-toggle="tooltip" data-placement="top" title="Preço">
+                        <button type="button" class="btn font-weight-bold @priceClass" data-toggle="tooltip" data-placement="top" title="Preço Atual">
                             R$@item.Price
                         </button>
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn font-weight-bold @dividendYieldClass" data-toggle="tooltip" data-placement="top" title="Dividend Yield">
+                        <button type="button" class="btn font-weight-bold @fairValueClass" data-toggle="tooltip" data-placement="top" title="Preço Justo = LPA X P/L">
+                            R$@item.FairValue
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn font-weight-bold @dividendYieldClass" data-toggle="tooltip" data-placement="top" title="Dividend Yield: Rendimento de dividendos">
                             @item.DividendYield %
                         </button>
                     </td>
                     <td class="text-center">
-                        <button id="priceProfit" name="priceProfit" type="button" class="btn font-weight-bold @priceProfitClass" data-toggle="tooltip" data-placement="top" title="P/L Preço/Lucro">
+                        <button id="priceProfit" name="priceProfit" type="button" class="btn font-weight-bold @priceProfitClass" data-toggle="tooltip" data-placement="top" title="P/L Preço/Lucro: Calcula o preço de um ativo sobre o lucro">
                             @item.PriceProfit
                         </button>
                     </td>
                     <td class="text-center">
-                        <button id="priceOverAssetValue" name="priceOverAssetValue" type="button" class="btn font-weight-bold @priceOverAssetValueClass" data-toggle="tooltip" data-placement="top" title="P/VP Preço Valor Patrimonial">
+                        <button id="earningsPerShare" name="earningsPerShare" type="button" class="btn font-weight-bold @earningsPerShareClass" data-toggle="tooltip" data-placement="top" title="LPA: Ajudar a entender se uma empresa é lucrativa ou não">
+                            @item.EarningsPerShare
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="equityValuePerShare" name="equityValuePerShare" type="button" class="btn font-weight-bold @earningsPerShareClass" data-toggle="tooltip" data-placement="top" title="VPA: Indica a saúde financeira de um negócio">
+                            @item.EquityValuePerShare
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button id="priceOverAssetValue" name="priceOverAssetValue" type="button" class="btn font-weight-bold @priceOverAssetValueClass" data-toggle="tooltip" data-placement="top" title="P/VP Preço Valor Patrimonial: Compara o preço de mercado de uma ação com o valor patrimonial correspondente">
                             @item.PriceOverAssetValue
                         </button>
                     </td>
                     <td class="text-center">
-                        <button id="evEbitda" name="evEbitda" type="button" class="btn font-weight-bold @evEbitdaClass" data-toggle="tooltip" data-placement="top" title="Ev/Ebitda">
+                        <button id="evEbitda" name="evEbitda" type="button" class="btn font-weight-bold @evEbitdaClass" data-toggle="tooltip" data-placement="top" title="Ev/Ebitda: Valor da companhia (EV) e o seu Ebitda (geração de caixa).">
                             @item.EvEbitda
                         </button>
                     </td>
                     <td class="text-center">
-                        <button id="dlEbitda" name="dlEbitda" type="button" class="btn font-weight-bold @dlEbitdaClass" data-toggle="tooltip" data-placement="top" title="Dl/Ebitda">
+                        <button id="dlEbitda" name="dlEbitda" type="button" class="btn font-weight-bold @dlEbitdaClass" data-toggle="tooltip" data-placement="top" title="Dl/Ebitda: Solvência de uma empresa e sua capacidade de pagar suas dívidas">
                             @item.DlEbitda
                         </button>
                     </td>
                     <td class="text-center">
-                        <button id="compoundAnnualGrowthRate" name="compoundAnnualGrowthRate" type="button" class="btn font-weight-bold @compoundAnnualGrowthRateClass" data-toggle="tooltip" data-placement="top" title="Carg Lucro">
+                        <button id="compoundAnnualGrowthRate" name="compoundAnnualGrowthRate" type="button" class="btn font-weight-bold @compoundAnnualGrowthRateClass" data-toggle="tooltip" data-placement="top" title="Carg Lucro: Taxa de crescimento anual composto">
                             @item.CompoundAnnualGrowthRate %
                         </button>
                     </td>
@@ -87,6 +107,23 @@
 <h6>Total de ativos nesta página: @Model.Count()</h6>
 
 @functions {
+    
+
+    private string GetEarningsPerShareColorClass(decimal value)
+    {
+        if (value < 0)
+        {
+            return "text-danger";
+        }
+        else if (value == 0)
+        {
+            return "text-warning";
+        }
+        else
+        {
+            return "text-success";
+        }
+    }
 
     private string GetPriceColorClass(decimal value)
     {
@@ -101,6 +138,22 @@
         else
         {
             return "text-success";
+        }
+    }
+
+    private string GetFairValueColorClass(decimal value, decimal fairValue)
+    {
+        if (fairValue > value)
+        {
+            return "text-success";
+        }
+        else if (value > fairValue)
+        {
+            return "text-danger";
+        }
+        else
+        {
+            return "text-warning";
         }
     }
 

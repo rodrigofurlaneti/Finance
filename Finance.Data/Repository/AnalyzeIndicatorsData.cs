@@ -47,6 +47,9 @@ namespace Finance.Data.Repository
                             ReturnOnEquity = reader.GetDecimal(reader.GetOrdinal("ReturnOnEquity")),
                             DlEbitda = reader.GetDecimal(reader.GetOrdinal("DlEbitda")),
                             CompoundAnnualGrowthRate = reader.GetDecimal(reader.GetOrdinal("CompoundAnnualGrowthRate")),
+                            EarningsPerShare = reader.GetDecimal(reader.GetOrdinal("EarningsPerShare")),
+                            EquityValuePerShare = reader.GetDecimal(reader.GetOrdinal("EquityValuePerShare")),
+                            FairValue = reader.GetDecimal(reader.GetOrdinal("FairValue")),
                             UpdatedAt = reader.GetString(reader.GetOrdinal("Updated_at"))
                         };
                         listActive.Add(active);
