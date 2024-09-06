@@ -46,6 +46,7 @@ public class Startup
         
         // Registrar o AllStockExchangeData
         services.AddScoped<IAllStockExchangeData, AllStockExchangeData>();
+        services.AddScoped<IBestStocksToInvestInData, BestStocksToInvestInData>();
         services.AddScoped<IBrazilianDepositaryReceiptsData, BrazilianDepositaryReceiptsData>();
         services.AddScoped<IRealEstateInvestmentFundData, RealEstateInvestmentFundData>();
         services.AddScoped<IStockExchangeData, StockExchangeData>();
@@ -55,7 +56,8 @@ public class Startup
         services.AddScoped<IAnalyzeIndicatorsData, AnalyzeIndicatorsData>();
 
         // Registro dos serviços
-        services.AddScoped<IAllStockExchangeService, AllStockExchangeService>(); 
+        services.AddScoped<IAllStockExchangeService, AllStockExchangeService>();
+        services.AddScoped<IBestStocksToInvestInService, BestStocksToInvestInService>();
         services.AddScoped<IBrazilianDepositaryReceiptsService, BrazilianDepositaryReceiptsService>(); 
         services.AddScoped<ICalculationOfTheBarsiService, CalculationOfTheBarsiService>(); 
         services.AddScoped<IGrahamMethodologyService, GrahamMethodologyService>(); 
